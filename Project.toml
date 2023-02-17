@@ -21,7 +21,7 @@ Documenter = "0.27"
 FFTW = "1.1.0"
 PlotlyJS = "0.13.1"
 Plots = "1.4"
-XLSX = "0.8.4"
+XLSX = "0.7.10"
 
 
 [extras]
