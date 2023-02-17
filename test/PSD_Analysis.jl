@@ -1,6 +1,5 @@
 using SyntheticEddyMethod
 using Test
-using Revise
 
 using Statistics
 using DataFrames, XLSX, PlotlyJS, Plots
