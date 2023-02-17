@@ -7,7 +7,7 @@ on:
   pull_request:
 jobs:
   build:
-    runs-on: windows,  ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: julia-actions/setup-julia@latest
