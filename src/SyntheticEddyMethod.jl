@@ -1,11 +1,8 @@
 module SyntheticEddyMethod
 
 using Plots
-using Trapz
-using PlotlyJS, CSV, HTTP, DataFrames
+using PlotlyJS, CSV, DataFrames
 using LinearAlgebra
-using PlotlyBase
-using BenchmarkTools
 using Statistics
 using FFTW #For fast fourier transformation
 

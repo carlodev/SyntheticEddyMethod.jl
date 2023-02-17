@@ -1,9 +1,7 @@
 using SyntheticEddyMethod
-using Test
-using Revise
 
 using Statistics
-using DataFrames, XLSX, PlotlyJS, Plots
+using DataFrames, XLSX, PlotlyJS
 σ = 0.1 #eddy dimensions, the same in all the directions
 b = 5.0
 a = 0.0
@@ -44,7 +42,7 @@ A, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 vector_points = [[0.0, b/2, b/2]]
 
 #Defining how many time interval
-Nt = 20000
+Nt = 200
 q = zeros(Nt, 3)
 
 for i = 1:1:Nt

@@ -83,17 +83,16 @@ for i = eachindex(TI_vec)
 end
 
 
-gr()
-Plots.plot(xaxis=:log, yaxis=:log, xlim = [0.5, 1e3], ylims =[1e-7, 1e2], xlabel="k", ylabel="E(k)", legend=:bottomleft, xticks=[1,10,100,1000])
+plot(xaxis=:log, yaxis=:log, xlim = [0.5, 1e3], ylims =[1e-7, 1e2], xlabel="k", ylabel="E(k)", legend=:bottomleft, xticks=[1,10,100,1000])
 for i = eachindex(TI_vec)
     TI = TI_vec[i]
     Plots.plot!(PSD_data[i].freqs, PSD_data[i].PSD, label = "SEM - TI = $TI")
 
 end
 
-Plots.plot!(freqs_rand, PSD_rand_tot, label = "RAND")
-Plots.plot!(k, E, linestyle=:dash, label = "E(k)∝k^-5/3")
+plot!(freqs_rand, PSD_rand_tot, label = "RAND")
+plot!(k, E, linestyle=:dash, label = "E(k)∝k^-5/3")
 
 #Plots.plot!(freqs, PSD, label = "SEM - TI = $TI")
 #Plots.plot!(freqs_mean, PSD_mean, label = "SEM mean")
-Plots.savefig("SEM_vs_RAND.png")
+savefig("SEM_vs_RAND.png")
