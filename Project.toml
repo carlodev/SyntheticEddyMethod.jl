@@ -1,7 +1,7 @@
 name = "SyntheticEddyMethod"
 uuid = "57cf2c78-4fcb-4d27-9f1f-369b8b08b789"
 authors = ["Carlo Brunelli"]
-version = "0.1.0"
+version = "1.0.0"
 
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
@@ -28,7 +28,7 @@ FFTW = "1.5.0"
 HTTP = "1.7.4"
 PlotlyBase = "0.8.19"
 PlotlyJS = "0.18.10"
-Plots = "1.38.5"
+Plots = "1.2"
 Revise = "3.5.1"
 Trapz = "2.0.3"
 [extras]
