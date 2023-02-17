@@ -128,6 +128,9 @@ end
 
 
 
+"""
+Create a vector of points
+"""
 function create_vector_points(x, y, z)
     vector_points = Vector{Float64}[]
     for i = 1:1:length(x)
