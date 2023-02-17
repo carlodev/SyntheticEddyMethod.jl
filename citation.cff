@@ -3,7 +3,7 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: Brunelli
     given-names: Carlo
-title: "ExoFlow a FEM software for incompressible fluid"
+title: "SEM"
 version: 0.0.1
 date-released: 2022-09-30
-url: "https://github.com/carlodev/SyntheticEddyMethod"
+url: "https://github.com/carlodev/SyntheticEddyMethod/"
