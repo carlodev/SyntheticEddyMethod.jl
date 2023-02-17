@@ -1,0 +1,13 @@
+name = "SyntheticEddyMethod"
+uuid = "57cf2c78-4fcb-4d27-9f1f-369b8b08b789"
+authors = ["Carlo Brunelli"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
