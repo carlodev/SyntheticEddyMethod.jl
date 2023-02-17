@@ -2,10 +2,10 @@
 
 # SEM (Synthetic Eddy Method) in Julia
 
-| **Documentation** |
+<!-- | **Documentation** |
 |:------------ |
 | [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://carlodev.github.io/SyntheticEddyMethod/)|
-
+ -->
 
 Inflow generation method by using Synthetic Eddy Method (SEM). At first, this method is developed by Jarrin (10.1016/j.ijheatfluidflow.2006.02.006) with a basic idea that turbulence is a superposition of coherent structures called eddies. 
 
