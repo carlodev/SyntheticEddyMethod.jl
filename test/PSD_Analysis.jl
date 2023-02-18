@@ -2,7 +2,7 @@ using SyntheticEddyMethod
 using Test
 
 using Statistics
-using DataFrames, XLSX, PlotlyJS, Plots
+using DataFrames, XLSX, Plots
 
 
 ## Power Spectral Density Analysis
