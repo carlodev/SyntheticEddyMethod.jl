@@ -1,7 +1,8 @@
 using SyntheticEddyMethod
 
 using Statistics
-using DataFrames, XLSX, PlotlyJS
+using DataFrames, XLSX
+#using PlotlyJS
 σ = 0.1 #eddy dimensions, the same in all the directions
 b = 5.0
 a = 0.0
@@ -61,23 +62,23 @@ Statistics.std(Ek)
 
 ## Plotting 3D iso curves (good for visualizing the distribution and evolution of the eddies)
 
-X, Y, Z = mgrid(x, y, z)
-vector_points = create_vector_points(x, y, z)
+# X, Y, Z = mgrid(x, y, z)
+# vector_points = create_vector_points(x, y, z)
 
-value = compute_uᵢₚ(vector_points, dt, Eddies, U₀, Vboxinfo)[1]
-Eddies
+# value = compute_uᵢₚ(vector_points, dt, Eddies, U₀, Vboxinfo)[1]
+# Eddies
 
-iso_surfaces = isosurface(
-    x=X[:],
-    y=Y[:],
-    z=Z[:],
-    value=value[:,1],
-    isomin=0.1,
-    isomax=1,
-    surface_count=3,
-    opacity=0.5,
-    caps=attr(x_show=false, y_show=false)
-)
+# iso_surfaces = isosurface(
+#     x=X[:],
+#     y=Y[:],
+#     z=Z[:],
+#     value=value[:,1],
+#     isomin=0.1,
+#     isomax=1,
+#     surface_count=3,
+#     opacity=0.5,
+#     caps=attr(x_show=false, y_show=false)
+# )
 
-layout=Layout(yaxis=attr(scaleanchor="x", scaleratio=1), zaxis=attr(scaleanchor="x", scaleratio=1))
-io = PlotlyJS.plot(iso_surfaces, Layout(yaxis=attr(scaleanchor="x", scaleratio=1)))
+# layout=Layout(yaxis=attr(scaleanchor="x", scaleratio=1), zaxis=attr(scaleanchor="x", scaleratio=1))
+# io = PlotlyJS.plot(iso_surfaces, Layout(yaxis=attr(scaleanchor="x", scaleratio=1)))
