@@ -1,7 +1,7 @@
 module SyntheticEddyMethod
 
 using Plots
-using PlotlyJS, CSV, DataFrames
+using PlotlyJS, DataFrames
 using LinearAlgebra
 using Statistics
 using FFTW #For fast fourier transformation
