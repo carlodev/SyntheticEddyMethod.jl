@@ -74,22 +74,5 @@ end
 
 
 
-# xtr = -1.3:0.001:1.3
-# ytr  = -1.3:0.001:1.3
-# ztr = ytr
-# pp = Any[]
-# for p in zip(xtr,ytr,ztr)
-#     pv = [p[1], p[2], p[3]]
-#     push!(pp,pv)
-# end
-
-# using Plots
-
-# plot(xtr, (tent_fun.(pp)), label = "tent function", linewidth=2)
-# savefig("tent_fun.pdf")
-# plot(xtr, (step_fun.(pp)), legend=:bottom, label = "step function", linewidth=2)
-# savefig("step_fun.pdf")
-# plot(xtr, (trunc_gauss_fun.(pp)), label = "gaussian function", linewidth=2)
-# savefig("trun_gauss_fun.pdf")
 
 
