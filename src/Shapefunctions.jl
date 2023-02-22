@@ -1,15 +1,8 @@
 using LinearAlgebra
 
-function fσ(x, shape_fun::Symbol)
-    if shape_fun == :tent
-        return tent_fun(x)
-    elseif shape_fun == :step
-        return step_fun(x)
-    elseif shape_fun == :trunc_gauss
-        return trunc_gauss_fun(x)
-    end
+function fσ(x, shape_fun)
+    shape_fun(x)
 end
-
 
 """
 Tent-like shape function. The domain is [-1,1]x[-1,1]x[-1,1].
@@ -26,10 +19,7 @@ function tent_fun(x)
          sqrt(1.5) * (1 - abs(x[3]))
     
     else
-    
         return 0
-        
-
     end
 end
 
