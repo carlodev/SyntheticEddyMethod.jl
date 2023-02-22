@@ -19,7 +19,7 @@ struct VirtualBox
     Z::Vector{Float64}
     σ::Float64
     N::Int64
-    shape_fun::Symbol
+    shape_fun::Function
     V_b::Float64
     X_start::Float64
     X_end::Float64
@@ -34,12 +34,12 @@ end
 """
 If not specified, in the x direction the dimension in from -σ to + σ
 """
-function VirtualBox(Y::Vector{Float64}, Z::Vector{Float64},  σ::Float64; shape_fun = :tent)
+function VirtualBox(Y::Vector{Float64}, Z::Vector{Float64},  σ::Float64; shape_fun = tent_fun)
     X = [0.0]
     VirtualBox(X, Y, Z,  σ; shape_fun = shape_fun)
 end
 
-function VirtualBox(X::Vector{Float64}, Y::Vector{Float64}, Z::Vector{Float64},  σ::Float64; shape_fun = :tent)
+function VirtualBox(X::Vector{Float64}, Y::Vector{Float64}, Z::Vector{Float64},  σ::Float64; shape_fun = tent_fun)
     X_start = X[1] - σ
     X_end = X[end] + σ
     Y_start = Y[1] - σ
@@ -51,7 +51,7 @@ function VirtualBox(X::Vector{Float64}, Y::Vector{Float64}, Z::Vector{Float64}, 
     Sₚ = (Y_end - Y_start) * (Z_end - Z_start)
     Sₛ = σ * σ #Eddy surface on the XY Plane
     N = Int(round(Sₚ / Sₛ))
-    V_b = 2*σ * (Y_end - Y_start) * (Z_end - Z_start)
+    V_b = 2*σ * (Y_end - Y_start) * (Z_end - Z_start) * (X_end - X_start)
 
     VirtualBox(X, Y, Z, σ, N, shape_fun, V_b, X_start, X_end, Y_start, Y_end, Z_start, Z_end)
 end
@@ -107,7 +107,7 @@ end
 
 
 
-function uᵢ(vec_points::Vector{Vector{Float64}}, ϵᵢ::Float64, xᵢ::Vector{Float64}, σ::Float64, shape_fun::Symbol)
+function uᵢ(vec_points::Vector{Vector{Float64}}, ϵᵢ::Float64, xᵢ::Vector{Float64}, σ::Float64, shape_fun::Function)
     map(x -> ϵᵢ .* fσ((x .- xᵢ)./σ, shape_fun), vec_points)
 end
 
