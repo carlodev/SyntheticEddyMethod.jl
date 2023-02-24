@@ -7,8 +7,8 @@ a = 0.0
 
 #Defining the Virtual Box domain
 x = -σ:0.1:+σ 
-y = a:0.1:b
-z = a:0.1:b
+y = collect(a:0.1:b)
+z = collect(a:0.1:b)
 
 
 Vboxinfo = VirtualBox(y,z,σ)
