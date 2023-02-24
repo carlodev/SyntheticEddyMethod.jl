@@ -31,7 +31,7 @@ DataFrames = "1.5.0"
 Documenter = "0.27.23"
 FFTW = "1.5.0"
 Plots = "1.38.5"
-Interpolations v0.14.7
+Interpolations= "0.14.7"
 JLD2="0.4.30"
 MCMCChains="5.7.1"
 Plotly="0.4.1"
