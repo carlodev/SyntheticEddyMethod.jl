@@ -5,7 +5,6 @@
 
 ## Function Documentation
 ```@docs
-SyntheticEddyMethod
 SEM_EDDY
 VirtualBox
 convect_eddy
