@@ -1,17 +1,4 @@
-
-
-# SEM (Synthetic Eddy Method) in Julia
-
-<!-- | **Documentation** |
-|:------------ |
-| [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://carlodev.github.io/SyntheticEddyMethod/)|
- -->
-
-Inflow generation method by using Synthetic Eddy Method (SEM). At first, this method is developed by Jarrin (10.1016/j.ijheatfluidflow.2006.02.006) with a basic idea that turbulence is a superposition of coherent structures called eddies. 
-
-The SEM assumes that the flow is comprised of randomly distributed turbulent spots, each of which is represented by a three-dimensional shape function that has a compact support and satisfies proper normalization conditions. These spots are then transported through an inlet plane using Taylor's frozen turbulence hypothesis, with a reference velocity. The resulting inflow turbulence is then reconstructed using a method proposed by researchers to recover the desired statistical properties and account for inhomogeneity and anisotropy. The choice of the shape function is crucial in the SEM as it directly affects the two-point autocorrelation function and the power spectrum of the synthetic turbulence.
-
-## How to use
+# Package usage
 At first, the user defines the dimension and resolution of the virtual box where the eddies are going to be generated as well as the dimension of the eddies (`σ`). A common choice is `σ = 2Δz` or `σ = Δz`, where `Δz` is the mesh resolution in the `z` direction.
 
 ```julia
@@ -103,7 +90,3 @@ Look in folder /test for the in-deep results of testing
 
 
 
-## Acknowledgement
-- nomenclature: 10.1016/j.ijheatfluidflow.2006.02.006
-- shape function definition thanks to the Fortran 90 code https://github.com/blackcata/SEM.git and the related paper 10.1016/j.ijheatmasstransfer.2019.02.061
-- https://nheri-simcenter.github.io/WE-UQ-Documentation/common/technical_manual/desktop/WEUQ/TinF.html for detailed description of the procedure

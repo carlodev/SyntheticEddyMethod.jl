@@ -1,12 +1,10 @@
-using SyntheticEddyMethod, Documenter
-makedocs(sitename="SyntheticEddyMethod")
-
+using  Documenter, SyntheticEddyMethod
 makedocs(
-    strict=true,
     sitename = "SyntheticEddyMethod.jl",
+    modules = [SyntheticEddyMethod],
     pages = [
         "Introduction" => "index.md",
-        "usage.md",
-        "exploring.md",
+        "Usage" => "usage.md",
+        "Exploring" => "exploring.md",
     ],
 )

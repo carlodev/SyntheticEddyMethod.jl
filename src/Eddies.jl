@@ -95,9 +95,8 @@ function initialize_eddies(U₀::Real, TI::Float64, Vboxinfo::VirtualBox; turbul
     return A, Eddies    
 end
 
-"""
-Random position of an eddy inside the Virtual Box
-"""
+# Random position of an eddy inside the Virtual Box
+
 function new_rand_position(Vbinfo::VirtualBox)
 
     xx = Vbinfo.X_start #(rand() .- 0.5) .* (Vbinfo.X_end - Vbinfo.X_start) .+ (Vbinfo.X_end + Vbinfo.X_start) ./ 2

@@ -1,10 +1,13 @@
 using LinearAlgebra
 
+
 function fσ(x, shape_fun)
     shape_fun(x)
 end
 
+
 """
+    tent_fun(x)
 Tent-like shape function. The domain is [-1,1]x[-1,1]x[-1,1].
 It satisfy the normalization condition:
 ```math
