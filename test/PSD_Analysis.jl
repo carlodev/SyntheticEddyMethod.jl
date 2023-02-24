@@ -14,9 +14,9 @@ E = (k).^(-5/3) .*100 #multiplied by 100 for shifting the curve in the top part
 b = 5.0
 a = 0.0
 #Defining the Virtual Box domain
-x = -σ:0.1:+σ 
-y = a:0.1:b
-z = a:0.1:b
+x = collect(-σ:0.1:+σ) 
+y = collect(a:0.1:b)
+z = collect(a:0.1:b)
 
 
 N_restart = 20
@@ -26,13 +26,9 @@ PSD = 0.0
 vector_points = [[0.0, b/2, b/2]]
 
 
-σ = 0.1 #eddy dimensions, the same in all the directions
-b = 5.0
-a = 0.0
 
 
-
-Vboxinfo = VirtualBox(y,z,σ)
+Vboxinfo = VirtualBox(y,z,σ;shape_fun=:trunc_gauss)
 
 
 U₀ = 1.0 #Convective Velocity
@@ -82,7 +78,7 @@ for i = eachindex(TI_vec)
 end
 
 
-plot(xaxis=:log, yaxis=:log, xlim = [0.5, 1e3], ylims =[1e-7, 1e2], xlabel="k", ylabel="E(k)", legend=:bottomleft, xticks=[1,10,100,1000])
+Plots.plot(xaxis=:log, yaxis=:log, xlim = [0.5, 1e3], ylims =[1e-7, 1e2], xlabel="k", ylabel="E(k)", legend=:bottomleft, xticks=[1,10,100,1000])
 for i = eachindex(TI_vec)
     TI = TI_vec[i]
     Plots.plot!(PSD_data[i].freqs, PSD_data[i].PSD, label = "SEM - TI = $TI")
@@ -92,6 +88,7 @@ end
 plot!(freqs_rand, PSD_rand_tot, label = "RAND")
 plot!(k, E, linestyle=:dash, label = "E(k)∝k^-5/3")
 
+
 #Plots.plot!(freqs, PSD, label = "SEM - TI = $TI")
 #Plots.plot!(freqs_mean, PSD_mean, label = "SEM mean")
-savefig("SEM_vs_RAND.png")
+Plots.savefig("SEM_vs_RAND_gaus.png")

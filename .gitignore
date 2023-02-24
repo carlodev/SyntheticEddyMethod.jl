@@ -1,2 +1,8 @@
 /Manifest.toml
 *.pdf
+*.jld2
+*.png
+*.html
+*.svg
+*.pdf
+

@@ -2,15 +2,14 @@
 Cholesky Decomposition of Reynolds Stress Tensor
 """
 function cholesky_decomposition(R::Matrix{Float64})
-    if length(R) == 4
+    if length(R) == 4 #For 2D case
         a11 = (R[1, 1])^0.5
         a21 = (R[2, 1]) / a11
         a22 = (R[2, 2] - a21)^0.5
 
         A = [a11 0.0
             a21 a22]
-
-    elseif length(R) == 9
+    elseif length(R) == 9 #For 3D case
         a11 = (R[1, 1])^0.5
         a21 = (R[2, 1]) / a11
         a22 = (R[2, 2] - a21)^0.5
@@ -20,6 +19,8 @@ function cholesky_decomposition(R::Matrix{Float64})
         A = [a11 0.0 0.0
             a21 a22 0.0
             a31 a32 a33]
+    else
+        error("The Reynolds stress tensor has to be a 2x2 or 3x3 matrix")
     end
 
     return A

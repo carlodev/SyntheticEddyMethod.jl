@@ -6,7 +6,9 @@ using LinearAlgebra
 using Statistics
 using FFTW #For fast fourier transformation
 
-
+export tent_fun
+export step_fun
+export trunc_gauss_fun
 export fσ
 include("Shapefunctions.jl")
 
