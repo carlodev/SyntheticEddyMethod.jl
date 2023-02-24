@@ -1,6 +1,7 @@
 using Revise
 
 using SyntheticEddyMethod
+
 using Statistics
 using DataFrames, XLSX
 σ = 0.1 #eddy dimensions, the same in all the directions
@@ -8,19 +9,19 @@ b = 5.0
 a = 0.0
 
 #Defining the Virtual Box domain
-x = collect(-2*σ:0.02:2*σ) 
-y = collect(a:0.02:b)
-z = [0.0] #collect(a:0.1:b)
+x = collect(-σ:0.1:σ) 
+y = collect(a:0.1:b)
+z = collect(a:0.1:b)
 
-Vboxinfo = VirtualBox(x,y,z,σ;shape_fun=:tent)
+Vboxinfo = VirtualBox(y,z,σ;shape_fun = tent_fun)
+Vboxinfo.V_b
 
 
 N = Vboxinfo.N #you can override it 
 t = 0
 dt = 0.01
-
 U₀ = 1.0 #Convective Velocity
-TI = 0.2 #turbulence intensity
+TI = 0.1 #turbulence intensity
 
 
 #Isotropic turbulence
@@ -33,7 +34,7 @@ Re_stress = [u_p 0.0 0.0;
 
 
 A = cholesky_decomposition(Re_stress)
-Eddies = initialize_eddies(N, σ, Vboxinfo)
+Eddies = initialize_eddies(N, [σ,σ,σ], Vboxinfo)
 
 # Or you can use the wrapper function
 A, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
@@ -42,27 +43,39 @@ A, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 #Computing the velocity in the middle of the VirtualBox domain
 vector_points = [[0.0, b/2, b/2]]
 
-#Defining how many time interval
-Nt = 20000
+# Defining how many time interval
+ NN = 100
+ Stat = zeros(NN,3)
+
+for j = 1:1:NN
+    println(j)
+Nt = 100_000
 q = zeros(Nt, 3)
-using SyntheticEddyMethod
 
 for i = 1:1:Nt
     q[i,:] = compute_uᵢₚ(vector_points, dt, Eddies, U₀, Vboxinfo)[1]
 end
 
-
 U, Ek =  compute_U_k(q, A, U₀)
-Statistics.std(U[:,1])
 
+
+Stat[j,1] = Statistics.std(U[:,1])
+Stat[j,2] = Statistics.std(U[:,2])
+Stat[j,3] = Statistics.std(U[:,3])
+end
+
+using FileIO, JLD2
+Stat[1:50,:]
+FileIO.save("StatF2.jld2","Stat",Stat[1:50,:])
+FileIO.save("UF2.jld2","U",U)
 
 
 # Plotting 3D iso curves (good for visualizing the distribution and evolution of the eddies)
+
 using Plotly, Plots
 σ = 0.1 #eddy dimensions, the same in all the directions
 b = 5.0
 a = 0.0
-
 
 
 x = collect(-2*σ:0.02:2*σ) 
@@ -70,7 +83,7 @@ y = collect(a:0.05:b)
 z = [0.0]
 
 
-Vboxinfo = VirtualBox(x, y,z,σ;shape_fun=:step)
+Vboxinfo = VirtualBox(x, y,z,σ;shape_fun= step_fun)
 
 
 N = Vboxinfo.N #you can override it 
@@ -134,3 +147,15 @@ iso_surfaces = isosurface(
 
 layout=Layout(yaxis=attr(scaleanchor="x", scaleratio=1), zaxis=attr(scaleanchor="x", scaleratio=1))
 io = PlotlyJS.plot(iso_surfaces, Layout(yaxis=attr(scaleanchor="x", scaleratio=1)))
+
+
+
+x = collect(1:5)
+y = collect(1:2)
+z = [0.0]
+sigma_vec = [0.1,0.2,0.3]
+ck = [1.0,2.0,3.0]
+vector_points = create_vector_points(x, y, z)
+
+
+s2 = map(y -> y ./sigma_vec, map(x -> x .- ck, vector_points))

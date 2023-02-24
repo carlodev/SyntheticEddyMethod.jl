@@ -73,7 +73,7 @@ PSD_data = DataFrame[]
 for i = eachindex(TI_vec)
     TI = TI_vec[i]
     filename = "test/psd_results_$TI.xlsx"
-    df_tmp = DataFrame(XLSX.readtable(filename, "$TI")...)
+    df_tmp = DataFrame(XLSX.readtable(filename, "$TI"))
     push!(PSD_data, df_tmp)
 end
 
