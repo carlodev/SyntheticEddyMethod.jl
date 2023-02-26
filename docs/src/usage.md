@@ -53,14 +53,7 @@ dt = 0.001
 U₀ = 1.0
 TI = 0.6 #turbulence intensity
 
-#Isotropic turbulence
-u_p = (U₀ * TI)^2
-
-Re_stress = [u_p 0.0 0.0; 
-            0.0 u_p 0.0;
-            0.0 0.0 u_p]
-
-A = cholesky_decomposition(Re_stress)
+A, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 
 ```
 
