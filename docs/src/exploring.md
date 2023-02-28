@@ -1,6 +1,7 @@
 # Exploring the package
 
 ### Visualize the centre of the eddies
+Notice that the default value of the number of eddies is overwritten to reduce the total number and make the visualization easier
 ```julia
 using SyntheticEddyMethod
 using Plots
@@ -39,6 +40,7 @@ X, Y, Z = mgrid(x, y, z)
 vector_points = create_vector_points(x, y, z)
 
 value = compute_uᵢₚ(vector_points, dt, Eddies, U₀, Vboxinfo)[1]
+value = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo,A)
 
 iso_surfaces = isosurface(
     x=X[:],
