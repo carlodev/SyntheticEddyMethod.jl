@@ -15,3 +15,6 @@ deploydocs(
     repo = "github.com/carlodev/SyntheticEddyMethod.jl",
     push_preview = true,
 )
+
+using DocumenterTools
+DocumenterTools.genkeys(user="carlodev", repo="SyntheticEddyMethod.jl.git")
