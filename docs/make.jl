@@ -11,6 +11,6 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/carlodev/SyntheticEddyMethod.jl.git",
+    repo = "github.com/carlodev/SyntheticEddyMethod.jl",
     push_preview = true,
 )
