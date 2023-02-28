@@ -195,6 +195,9 @@ function compute_fluct(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies:
     return u_ 
 end
 
+"""
+Compute turbulent kinetic energy
+"""
 function compute_Ek(U::Vector{Vector{Float64}}, U₀::Float64)
     map!(x -> [x[1] - U₀, x[2], x[3]], U,U)
     Ek = 0.5 .*map(x -> sum(x.^2), U)

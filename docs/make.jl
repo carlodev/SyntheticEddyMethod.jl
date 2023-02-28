@@ -1,4 +1,5 @@
 using  Documenter, SyntheticEddyMethod
+
 makedocs(
     sitename = "SyntheticEddyMethod.jl",
     modules = [SyntheticEddyMethod],
