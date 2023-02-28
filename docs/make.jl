@@ -9,3 +9,8 @@ makedocs(
         "Exploring" => "exploring.md",
     ],
 )
+
+deploydocs(
+    repo = "github.com/carlodev/SyntheticEddyMethod.jl.git",
+    push_preview = true,
+)
