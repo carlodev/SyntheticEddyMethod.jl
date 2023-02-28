@@ -6,3 +6,12 @@
 *.svg
 *.pdf
 
+Manifest.toml
+
+*.jl.*.cov
+*.jl.cov
+*.jl.mem
+/docs/build/
+/docs/assets/
+
+.vscode

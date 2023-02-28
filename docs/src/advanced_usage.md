@@ -100,12 +100,12 @@ Statistics.std(U[:,3])
 ## Spectral Analysis
 ```julia
 using SyntheticEddyMethod
-using DataFrames, XLSX
+using DataFrames, XLSX, Plots
 #Turbulence intensity to test
 TI_vec = 0.01:0.01:0.05
 
 k = 0.1:1000
-E = (k).^(-5/3) .*100 #multiplied by 100 for shifting the curve in the top part
+E = (k).^(-5/3)*0.01 #multiplied by 100 for shifting the curve in the top part
 
 N_restart = 20
 Nt = 2000
@@ -119,10 +119,12 @@ for TI in TI_vec
 
     for i=1:1:N_restart
          q = Vector{Float64}[]
-        for i = 1:1:Nt
+        for j = 1:1:Nt
             qi = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, A)[1]
             push!(q,qi)
         end
+        println(i)
+
         Ek =  compute_Ek(q, U₀)
         PSD_tmp, freqs = fft_from_signal(Ek, dt)
         PSD = PSD .+ PSD_tmp ./N_restart
@@ -138,7 +140,7 @@ N_rand = 1000
 PSD_rand_tot = 0.0
 freqs_rand = 0.0
 for i = 1:1:N_rand
-    rand_signal = randn(3000)
+    rand_signal = randn(3000).*(TI)
     PSD_rand, freqs_rand = fft_from_signal(3/2 .* rand_signal.^2 ,dt)
     PSD_rand_tot = PSD_rand_tot .+ 1/N_rand .*PSD_rand
 end
@@ -151,12 +153,12 @@ PSD_data = DataFrame[]
 for i = eachindex(TI_vec)
     TI = TI_vec[i]
     filename = "test/psd_results_$TI.xlsx"
-    df_tmp = DataFrame(XLSX.readtable(filename, "$TI"))
+    df_tmp = DataFrame(XLSX.readtable(filename, "$TI")...)
     push!(PSD_data, df_tmp)
 end
 
 
-Plots.plot(xaxis=:log, yaxis=:log, xlim = [0.5, 1e3], ylims =[1e-7, 1e2], xlabel="k", ylabel="E(k)", legend=:bottomleft, xticks=[1,10,100,1000])
+Plots.plot(xaxis=:log, yaxis=:log, xlim = [0.5, 1e3], ylims =[1e-10, 1], xlabel="k", ylabel="E(k)", legend=:bottomleft, xticks=[1,10,100,1000])
 for i = eachindex(TI_vec)
     TI = TI_vec[i]
     Plots.plot!(PSD_data[i].freqs, PSD_data[i].PSD, label = "SEM - TI = $TI")
