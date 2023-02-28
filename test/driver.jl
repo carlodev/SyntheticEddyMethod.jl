@@ -39,17 +39,20 @@ A, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 vector_points = [[0.0, b/2, b/2]]
 
 #Defining how many time interval
-#Nt = 20000
-q = zeros(Nt, 3)
+
+Nt = 1000
+U = zeros(Nt, 3)
+
 
 for i = 1:1:Nt
-    q[i,:] = compute_uᵢₚ(vector_points, dt, Eddies, U₀, Vboxinfo)[1]
+    U[i,:] = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, A)[1]
 end
 
-U, Ek =  compute_U_k(q, A, U₀)
-
-return Statistics.std(U[:,1])
-
+#The deviation standard should approach the turbulence intensity
+s1 = Statistics.std(U[:,1])
+s2 = Statistics.std(U[:,2])
+s3 = Statistics.std(U[:,3])
+return mean([s1,s2,s3])
 end
 
 
