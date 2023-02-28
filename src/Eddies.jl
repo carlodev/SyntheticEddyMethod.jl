@@ -99,7 +99,7 @@ end
 
 function new_rand_position(Vbinfo::VirtualBox)
 
-    xx = Vbinfo.X_start #(rand() .- 0.5) .* (Vbinfo.X_end - Vbinfo.X_start) .+ (Vbinfo.X_end + Vbinfo.X_start) ./ 2
+    xx = (rand() .- 0.5) .* (Vbinfo.X_end - Vbinfo.X_start) .+ (Vbinfo.X_end + Vbinfo.X_start) ./ 2 #Vbinfo.X_start 
     yy = (rand() .- 0.5) .* (Vbinfo.Y_end - Vbinfo.Y_start) .+ (Vbinfo.Y_end + Vbinfo.Y_start) ./ 2
     zz =(rand() .- 0.5) .* (Vbinfo.Z_end - Vbinfo.Z_start) .+ (Vbinfo.Z_end + Vbinfo.Z_start) ./ 2
 
@@ -178,4 +178,25 @@ function compute_U_k(q::Matrix{Float64}, A::Matrix{Float64}, U₀::Float64)
 
     end
     return U, k    
+end
+
+
+function compute_fluct(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SEM_EDDY}, U₀::Float64, Vbinfo::VirtualBox, A::Union{Matrix,Reynolds_stress_interpolator})
+
+    u_fluct = compute_uᵢₚ(vec_points, dt, Eddies, U₀, Vbinfo)[1]
+    u_fluct_vec = [u_fluct[i,:] for i in axes(u_fluct,1)]
+    
+    Ap = Reynolds_stress_points(vec_points, A)
+    U = map((x,y) -> x * y, Ap, u_fluct_vec)
+    
+    # Add U₀, convective velocity, to the component in the x direction. Save the results back to U
+    u_ = map(x -> [x[1] + U₀, x[2], x[3]], U)
+
+    return u_ 
+end
+
+function compute_Ek(U::Vector{Vector{Float64}}, U₀::Float64)
+    map!(x -> [x[1] - U₀, x[2], x[3]], U,U)
+    Ek = 0.5 .*map(x -> sum(x.^2), U)
+    return Ek
 end
