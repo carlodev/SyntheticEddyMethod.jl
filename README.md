@@ -3,7 +3,7 @@
 # SEM (Synthetic Eddy Method) in Julia
 
 **Documentation**
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://carlodev.github.io/SyntheticEddyMethod.jl/
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://carlodev.github.io/SyntheticEddyMethod.jl/)
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://carlodev.github.io/SyntheticEddyMethod.jl/)
 [![Build Status](https://github.com/carlodev/SyntheticEddyMethod.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/carlodev/SyntheticEddyMethod.jl/actions/workflows/CI.yml?query=branch%3Amaster) 
 [![Coverage](https://codecov.io/gh/carlodev/SyntheticEddyMethod.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/carlodev/SyntheticEddyMethod.jl)
