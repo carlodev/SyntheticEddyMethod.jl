@@ -24,7 +24,7 @@ x = collect(-1:0.1:1)
 σ = [σx,σy,σz]
 Vboxinfo = VirtualBox(x,y,z,σ; shape_fun = step_fun)
 N = Vboxinfo.N
-Eddies = initialize_eddies(N, σ, Vboxinfo)
+Eddies = initialize_eddies(Vboxinfo)
 ```
 
 ### Define custom Reynolds Stress Tensor

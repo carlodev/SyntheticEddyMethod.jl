@@ -22,7 +22,7 @@ Then, eddies are initialize in the virtualbox with random values of position and
 
 
 ```julia
-Eddies = initialize_eddies(N, σ, Vboxinfo)
+Eddies = initialize_eddies(Vboxinfo)
 t = 0
 dt = 0.001
 U₀ = 1.0
@@ -47,10 +47,10 @@ Compute the velocity fluctuation and then is 'corrected' using the Reynolds Stre
 
 
 ```julia
-u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo,Re_stress)
+u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
 ```
 
-Compute the turbulent kinetic energy
+Compute the turbulent kinetic energy:
 ```julia
     Ek  = compute_Ek(u_fluct, U₀)
 ```
