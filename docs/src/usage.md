@@ -3,14 +3,11 @@ At first, the user defines the dimension and resolution of the virtual box where
 
 ```julia
 using SyntheticEddyMethod
-
 σ = 0.1
 b = 5.0
 a = 0.0
-
 y = collect(a:0.1:b)
 z = collect(a:0.1:b)
-
 ```
 Notice: only the first and last value of ´y´ and ´z´ are used to create the VirtualBox.
 
@@ -18,9 +15,7 @@ Then you create the `VirtualBox` structure that has embedded all the information
 The number of eddy is automatically computed in order to guarantee an homogeneous fill. You can manually override the value (`Vboxinfo.N`).
 
 ```julia
-
 Vboxinfo = VirtualBox(y,z,σ)
-
 N = Vboxinfo.N #you can override it 
 ```
 Then, eddies are initialize in the virtualbox with random values of position and intensity. You have to specify the time-step, `dt`. Then the Reynolds stress tensor. Here homegeneous and isotropic turbulence is considered, so $R_{ij} = 0, i!=j; R_{ij} != 0, i=j$, and the terms are computed from the turbulence intensity (`TI`). Then the Matrix `A` is created using the `cholesky_decomposition` function.

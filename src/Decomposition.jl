@@ -1,5 +1,7 @@
 """
-Cholesky Decomposition of Reynolds Stress Tensor
+    cholesky_decomposition(R::Matrix{Float64})
+    
+Cholesky Decomposition of the Reynolds Stress Tensor.
 """
 function cholesky_decomposition(R::Matrix{Float64})
     if length(R) == 4 #For 2D case

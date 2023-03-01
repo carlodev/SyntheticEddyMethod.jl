@@ -25,7 +25,6 @@ x = collect(-1:0.1:1)
 Vboxinfo = VirtualBox(x,y,z,σ; shape_fun = step_fun)
 N = Vboxinfo.N
 Eddies = initialize_eddies(N, σ, Vboxinfo)
-
 ```
 
 ### Define custom Reynolds Stress Tensor
@@ -38,8 +37,8 @@ A = [1.87e-5 -8.6e-8  -8.2e-7; -8.6e-8 5.27e-8 6.8e-8; -8.2e-7 4.9e-9 2.64e-6]
 ### Import the Reynolds Stress Tensor from file
 Or use a database where the the Reynolds Stress is defined pointwise. 
 ```julia
-reynolds_stress_file = "src/Data/Re_ch.xlsx"
-A = get_reynolds_stress_from_file(reynolds_stress_file)
+reynolds_stress_file = joinpath(@__DIR__,"..","src","Data","Re_ch.xlsx")
+A_from_file = get_reynolds_stress_from_file(reynolds_stress_file)
 ```
 
 An curious user notice that in this last case the Reynolds Stress is not a matrix, but it is an interpolator object. It depends on the point location where the user want to compute the fluctuations.

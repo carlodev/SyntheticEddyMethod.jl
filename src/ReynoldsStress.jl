@@ -1,12 +1,9 @@
-using Interpolations
-using DataFrames,XLSX
-using SyntheticEddyMethod
-
 """
-Function called by the user, where the Re_file_info is path of the .xlsx file with the 
-data of the Reynolds Stress
-File 
-Z Y UU VV WW UV UW VW
+    get_reynolds_stress_from_file(Re_file_info::String)
+
+Function called by the user, where the Re_file_info is path of the .xlsx file with the data of the Reynolds Stress.\\
+File column example:\\
+Z | Y | UU | VV | WW | UV | UW | VW
 """
  function get_reynolds_stress_from_file(Re_file_info::String)
     Reinfo = DataFrame(XLSX.readtable(Re_file_info, "Sheet1")...)
@@ -27,8 +24,6 @@ Z Y UU VV WW UV UW VW
  end
 
 
-
-
 function get_unique_coordinates_from_file(Reinfo::DataFrame)
     col_names = names(Reinfo)
 
@@ -45,6 +40,12 @@ function get_unique_coordinates_from_file(Reinfo::DataFrame)
     return yy, zz
 end
 
+
+"""
+    Reynolds_stress_tensor
+
+Struct hosting the Reynolds stress tensor informations
+"""
 mutable struct Reynolds_stress_tensor
     UU::Matrix{Float64}
     VV::Matrix{Float64}
@@ -64,7 +65,7 @@ mutable struct Reynolds_stress_interpolator
 end
 
 
-function Reynolds_stress_tensor(a,b)
+function Reynolds_stress_tensor(a::Int,b::Int)
     Reynolds_stress_tensor(zeros(a,b),zeros(a,b),zeros(a,b),zeros(a,b),zeros(a,b),zeros(a,b))  
 end
 
@@ -77,31 +78,42 @@ end
 
 
 """
-Create vec_A = Vector{Matrix}, length(vec_A) == length(vec_points)
-Each element is the Reynolds stress at the specific point
+    Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, A::Reynolds_stress_interpolator)
+
+Create vec_A of type Vector{Matrix}, where length(vec_A) == length(vec_points)
+Each element is the cholesky decomposition of the Reynolds stress at the specific point
 """
-function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, A::Reynolds_stress_interpolator)
+function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re_interp::Reynolds_stress_interpolator)
     # vec_A = map(x ->Reynolds_stress_point(x, A), vec_points)
     npoints= length(vec_points)
     vec_A = Vector{Matrix}(undef,npoints)
     for i = 1:1:npoints
-        vec_A[i] = Reynolds_stress_point(vec_points[i], A)
-    end
-    return vec_A
-end
-
-function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, A::Matrix{Float64})
-    # vec_A = map(x -> A, vec_points )
-    npoints= length(vec_points)
-    vec_A = Vector{Matrix}(undef,npoints)
-    for i = 1:1:npoints
-        vec_A[i] = A
+        Re_loc = Reynolds_stress_point(vec_points[i], Re_interp)
+        vec_A[i] = cholesky_decomposition(Re_loc)
     end
     return vec_A
 end
 
 """
-Compute the interpolation of the point pp. It extracts the second and third coordinate.
+    Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, A::Matrix{Float64})
+    
+Create vec_A of type Vector{Matrix}, where length(vec_A) == length(vec_points)
+Each element is the cholesky decomposition of the Reynolds stress at the specific point.
+"""
+function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re::Matrix{Float64})
+    # vec_A = map(x -> A, vec_points )
+    npoints= length(vec_points)
+    vec_A = Vector{Matrix}(undef,npoints)
+    for i = 1:1:npoints
+        vec_A[i] = cholesky_decomposition(Re)
+    end
+    return vec_A
+end
+
+"""
+    Reynolds_stress_point(point::Vector{Float64}, Re::Reynolds_stress_interpolator)
+
+It gives the Reynolds stress for a specific point. It performs an interpolation using the information in Re.
 """
 function Reynolds_stress_point(pp::Vector{Float64}, Re::Reynolds_stress_interpolator)
     y = pp[2]
@@ -111,6 +123,3 @@ function Reynolds_stress_point(pp::Vector{Float64}, Re::Reynolds_stress_interpol
     Re.UW(y,z) Re.VW(y,z) Re.WW(y,z)]
     return Stress_Mat
 end
-z = [[0.0497595595233471, -0.005560114405394889, -0.00035034087745518624], [0.049506494019851965, -0.005596091852882159, -0.0003933124821482676], [0.049253428516356834, -0.005632069300369428, -0.0004362840868413499], [0.0490003630128617, -0.0056680467478567, -0.0004792556915344221], [0.048747297509366794, -0.005704024195343966, -0.0005222272962275032], [1.0484942320058717, -0.005740001642831242, -0.0005651989009205832], [1.0482411665023768, -0.005775979090318509, -0.000608170505613663], [1.0479881009988816, -0.005811956537805783, -0.0006511421103067365], [1.0477350354953865, -0.005847933985293048, -0.0006941137149998228], [1.0474819699918916, -0.005883911432780317, -0.000737085319692901]]
-mapreduce(permutedims, vcat, z)
-
