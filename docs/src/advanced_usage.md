@@ -25,19 +25,21 @@ x = collect(-1:0.1:1)
 Vboxinfo = VirtualBox(x,y,z,σ; shape_fun = step_fun)
 N = Vboxinfo.N
 Eddies = initialize_eddies(Vboxinfo)
+
 ```
 
 ### Define custom Reynolds Stress Tensor
 
 The user can also use a custom Reynolds stress just by writing a `3x3` matrix.
 ```julia
-A = [1.87e-5 -8.6e-8  -8.2e-7; -8.6e-8 5.27e-8 6.8e-8; -8.2e-7 4.9e-9 2.64e-6]
+Re = [1.87e-5 -8.6e-8  -8.2e-7; -8.6e-8 5.27e-8 6.8e-8; -8.2e-7 4.9e-9 2.64e-6]
 ```
 
 ### Import the Reynolds Stress Tensor from file
 Or use a database where the the Reynolds Stress is defined pointwise. 
 ```julia
-reynolds_stress_file = joinpath(@__DIR__,"..","src","Data","Re_ch.xlsx")
+using XLSX
+reynolds_stress_file = joinpath(@__DIR__,"..","..","test","Data","Re_ch.xlsx")
 A_from_file = get_reynolds_stress_from_file(reynolds_stress_file)
 ```
 
@@ -47,7 +49,7 @@ An curious user notice that in this last case the Reynolds Stress is not a matri
 vector_points = [[0.0, 1.0, 2.5]]
 dt = 0.01
 U₀ = 1.0
-compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo,A )
+compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo,Re )
 ```
 
 

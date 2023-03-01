@@ -4,8 +4,6 @@
 Abstract type defining an Eddy object.
 """
 abstract type AbstractEddy end
-# abstract type SemEddy <: AbstractEddy end
-
 
 """
     SemEddy
@@ -177,9 +175,9 @@ function compute_uᵢₚ(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddie
     contribution = zeros(length(vec_points),3)
     for j = 1:1:length(Eddies)
         Eddies[j] = convect_eddy(dt, Eddies[j], U₀, Vbinfo)
-        contribution[:,1] .+= uᵢ(vec_points, Eddies[j].ϵᵢ[1], Eddies[j].xᵢ, Vbinfo.σ, Vbinfo.shape_fun)
-        contribution[:,2] .+= uᵢ(vec_points, Eddies[j].ϵᵢ[2], Eddies[j].xᵢ, Vbinfo.σ, Vbinfo.shape_fun)
-        contribution[:,3] .+= uᵢ(vec_points, Eddies[j].ϵᵢ[3], Eddies[j].xᵢ, Vbinfo.σ, Vbinfo.shape_fun)
+        contribution[:,1] .+= uᵢ(vec_points, Eddies[j].ϵᵢ[1], Eddies[j].xᵢ, Eddies[j].σ, Vbinfo.shape_fun)
+        contribution[:,2] .+= uᵢ(vec_points, Eddies[j].ϵᵢ[2], Eddies[j].xᵢ, Eddies[j].σ, Vbinfo.shape_fun)
+        contribution[:,3] .+= uᵢ(vec_points, Eddies[j].ϵᵢ[3], Eddies[j].xᵢ, Eddies[j].σ, Vbinfo.shape_fun)
 
     end
     σ_mean =  Vbinfo.σ[1] *  Vbinfo.σ[2] * Vbinfo.σ[3] 

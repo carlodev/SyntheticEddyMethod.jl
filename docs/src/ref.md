@@ -26,7 +26,7 @@ cholesky_decomposition
 
 ## Eddies
 ```@docs
- Eddy
+ AbstractEddy
  SemEddy
  VirtualBox
  convect_eddy

@@ -6,7 +6,7 @@ File column example:\\
 Z | Y | UU | VV | WW | UV | UW | VW
 """
  function get_reynolds_stress_from_file(Re_file_info::String)
-    Reinfo = DataFrame(XLSX.readtable(Re_file_info, "Sheet1")...)
+    Reinfo = DataFrame(XLSX.readtable(Re_file_info, "Sheet1"))
     yy,zz = get_unique_coordinates_from_file(Reinfo)
     Re_tensor = Reynolds_stress_tensor(length(yy),length(zz))
     

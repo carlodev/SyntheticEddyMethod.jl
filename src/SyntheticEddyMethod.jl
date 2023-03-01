@@ -26,7 +26,7 @@ export Reynolds_stress_point
 export get_reynolds_stress_from_file
 include("ReynoldsStress.jl")
 
-export Eddy
+export AbstractEddy
 export SemEddy
 export VirtualBox
 export convect_eddy

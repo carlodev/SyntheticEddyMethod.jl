@@ -41,12 +41,18 @@ Re_stress = [u_p 0.0 0.0;
             0.0 0.0 u_p]
 
 
-Eddies = initialize_eddies(N, σ, Vboxinfo)
+Eddies = initialize_eddies(Vboxinfo)
 
 # Or you can use the wrapper function
 Re_stress_2, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 
 @test Re_stress == Re_stress_2
+
+#Computing the velocity in the middle of the VirtualBox domain
+vector_points = create_vector_points(x, y, z)
+
+@test length(vector_points) == length(x)*length(y)*length(z)
+
 
 #Computing the velocity in the middle of the VirtualBox domain
 vector_points = [[0.0, b/2, b/2]]
