@@ -1,7 +1,14 @@
 # SyntheticEddyMethod.jl
-*Package for synthetic eddy generation*
+*Documentation of SyntheticEddyMethod.jl for synthetic eddy generation*
+
+## Introduction
+The Synthetic Eddy Method (SEM) is a numerical simulation technique used to model turbulent fluid flow in engineering and scientific applications. It involves synthesizing small-scale turbulent structures, or eddies, within a computational domain to represent the effects of larger-scale turbulent flows. This is accomplished by applying perturbations to the flow field, which induce a cascade of energy from larger to smaller eddies until the energy is dissipated through viscous effects. The result is a simulation that captures the important features of turbulent flows while remaining computationally efficient. SEM has been successfully applied to a range of problems, including airfoil and wing design, turbulent combustion, and oceanography. Its ability to accurately capture the physics of turbulent flows makes it a valuable tool for researchers and engineers seeking to improve the efficiency and performance of fluid systems.
+
 ## Package Features
+- Create velocity fluctuations for inlet boundary conditions
 - Create coeherent eddies in 3D domain
+- Define custom Reynolds Stress Tensor
+- Import from file custom Reynolds Stress Tensor
 
 ## Acknowledgement
 - nomenclature: 10.1016/j.ijheatfluidflow.2006.02.006
