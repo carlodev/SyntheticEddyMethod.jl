@@ -25,7 +25,7 @@ Vboxinfo.N = 100
 @test Vboxinfo.N == 100
 
 Vboxinfo = VirtualBox(y,z,σ; shape_fun = s_fun)
-
+N = boxinfo.N
 
 dt = 0.01
 
