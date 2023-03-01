@@ -33,7 +33,7 @@ Re_stress = [u_p 0.0 0.0;
 
 
 A = cholesky_decomposition(Re_stress)
-Eddies = initialize_eddies(N, σ, Vboxinfo)
+Eddies = initialize_eddies(Vboxinfo)
 
 # Or you can use the wrapper function
 A, Eddies = initialize_eddies(U₀, TI, Vboxinfo)

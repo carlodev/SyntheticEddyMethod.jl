@@ -85,16 +85,16 @@ end
 
 
 """
-    initialize_eddies(N::Int64, σ::Vector{Float64}, Vbinfo::VirtualBox)
+    initialize_eddies(Vbinfo::VirtualBox)
 
 Initialize Eddy position and intensity
 """
-function initialize_eddies(N::Int64, σ::Vector{Float64}, Vbinfo::VirtualBox)
+function initialize_eddies(Vbinfo::VirtualBox)
     SEMEddy = SemEddy[]
-    for i =1:1:N
+    for i =1:1:Vbinfo.N
         ϵᵢ = rand((-1,1), 3)
         xᵢ = new_rand_position(Vbinfo)
-        push!(SEMEddy, SemEddy(i, σ,  xᵢ,  ϵᵢ))
+        push!(SEMEddy, SemEddy(i, Vbinfo.σ,  xᵢ,  ϵᵢ))
     end
     return SEMEddy
 end
@@ -114,7 +114,7 @@ function initialize_eddies(U₀::Real, TI::Float64, Vboxinfo::VirtualBox; turbul
         error("Turbulence type supported :hom_is")
     end
     
-    Eddies = initialize_eddies(Vboxinfo.N, Vboxinfo.σ, Vboxinfo)
+    Eddies = initialize_eddies(Vboxinfo)
     
     return Re_stress, Eddies    
 end
