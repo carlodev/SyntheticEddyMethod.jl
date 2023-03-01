@@ -28,7 +28,7 @@ dt = 0.001
 U₀ = 1.0
 TI = 0.01 #turbulence intensity
 
-A, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
+Re_stress, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 
 ```
 
@@ -47,7 +47,7 @@ Compute the velocity fluctuation and then is 'corrected' using the Reynolds Stre
 
 
 ```julia
-u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo,A )
+u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo,Re_stress)
 ```
 
 Compute the turbulent kinetic energy
