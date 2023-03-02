@@ -64,12 +64,10 @@ dt = 0.001
 U₀ = 1.0
 TI = 0.01 #turbulence intensity
 
-#Isotropic turbulence
-u_p = (U₀ * TI)^2
+U₀ = 1.0
+TI = 0.01 #turbulence intensity
 
-Re_stress = [u_p 0.0 0.0; 
-            0.0 u_p 0.0;
-            0.0 0.0 u_p]
+Re_stress, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 ```
 
 You have to create a `Vector{Vector{Float64}}` of points where you want to evaluate the speed. In this case you are evaluating the speed in each point of the domain.

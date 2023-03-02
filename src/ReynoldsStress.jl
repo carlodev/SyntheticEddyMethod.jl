@@ -91,6 +91,7 @@ function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re_interp::
         Re_loc = Reynolds_stress_point(vec_points[i], Re_interp)
         vec_A[i] = cholesky_decomposition(Re_loc)
     end
+
     return vec_A
 end
 

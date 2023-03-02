@@ -59,12 +59,17 @@ vector_points = [[0.0, b/2, b/2]]
 
 #Defining how many time interval
 
-Nt = 1000
+Nt = 5000
 U = zeros(Nt, 3)
 
+u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
+@test typeof(u_f) == Vector{Vector{Float64}}
+@test length(u_f) == length(vector_points)
 
 for i = 1:1:Nt
-    U[i,:] = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)[1]
+    u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
+    
+    U[i,:] = u_f[1] #Its a vector of vector
 end
 
 #The deviation standard should approach the turbulence intensity
