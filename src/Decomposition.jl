@@ -14,7 +14,7 @@ function cholesky_decomposition(R::Matrix{Float64})
     elseif length(R) == 9 #For 3D case
         a11 = (R[1, 1])^0.5
         a21 = (R[2, 1]) / a11
-        a22 = (R[2, 2] - a21)^0.5
+        a22 = (R[2, 2] - a21^2)^0.5
         a31 = (R[3, 1]) / a11
         a32 = (R[3, 2] - a21 * a31) / a22
         a33 = (R[3, 3] - a31^2 - a32^2)^0.5
