@@ -184,7 +184,7 @@ function compute_uᵢₚ(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddie
     return sqrt(Vbinfo.V_b/(σ_mean)) ./ (Vbinfo.N)^0.5 .* contribution, Eddies
 end
 
-
+# VecPoints = Union{Float64, Vector{Float64}}
 
 """
     create_vector_points(x, y, z)
