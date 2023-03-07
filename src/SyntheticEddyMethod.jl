@@ -26,6 +26,9 @@ export Reynolds_stress_point
 export get_reynolds_stress_from_file
 include("ReynoldsStress.jl")
 
+
+
+
 export AbstractEddy
 export SemEddy
 export VirtualBox
@@ -39,7 +42,13 @@ export uᵢ
 export new_rand_position
 include("Eddies.jl")
 
-
+export compute_uDFSEM
+export DFSEM_fun
+export compute_rk
+export compute_RL
+export compute_α
+export compute_kp
+include("DFSEM.jl")
 
 export fft_from_signal
 include("SpectralUtilities.jl")

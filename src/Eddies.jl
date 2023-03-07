@@ -237,17 +237,21 @@ Compute the acutual velocity and the turbulent kinetic energy. The convective ve
 
 Compute the velocity fluctuations accordingly to the Reynolds Stress `Re`.
 """
-function compute_fluct(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
-
-    u_fluct = compute_uᵢₚ(vec_points, dt, Eddies, U₀, Vbinfo)[1]
-    u_fluct_vec = [u_fluct[i,:] for i in axes(u_fluct,1)]
+function compute_fluct(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator}; DFSEM = false)
+    if DFSEM
+    U = compute_uDFSEM(vec_points, dt, Eddies, U₀, Vbinfo, Re)
+    else
+        u_fluct = compute_uᵢₚ(vec_points, dt, Eddies, U₀, Vbinfo)[1]
+        u_fluct_vec = [u_fluct[i,:] for i in axes(u_fluct,1)]
     
-    Ap = Reynolds_stress_points(vec_points, Re)
-    U = map((x,y) -> x * y, Ap, u_fluct_vec)
+        Ap = Reynolds_stress_points(vec_points, Re)
+        U = map((x,y) -> x * y, Ap, u_fluct_vec)
+    
+    end
     
     # Add U₀, convective velocity, to the component in the x direction. Save the results back to U
     u_ = map(x -> [x[1] + U₀, x[2], x[3]], U)
-
+    
     return u_ 
 end
 
