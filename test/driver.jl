@@ -59,7 +59,7 @@ vector_points = [[0.0, b/2, b/2]]
 
 #Defining how many time interval
 
-Nt = 5000
+Nt = 1000
 U = zeros(Nt, 3)
 
 u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
@@ -68,7 +68,7 @@ u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
 
 for i = 1:1:Nt
     u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
-    
+    println(u_f[1])
     U[i,:] = u_f[1] #Its a vector of vector
 end
 
@@ -82,5 +82,6 @@ return mean([s1,s2,s3])
 end
 
 
-
-
+function utilities_test()
+    return isapprox(compute_Ek([[1.2, 0.1, 0.3]], 1.0)[1], (0.2^2 + 0.1^2 + 0.3^2 )*0.5)
+end

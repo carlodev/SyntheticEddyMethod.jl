@@ -6,6 +6,7 @@
 tent_fun
 step_fun
 trunc_gauss_fun
+DFSEM_fun
 ```
 
 ## Decomposition
@@ -30,18 +31,25 @@ cholesky_decomposition
  SemEddy
  VirtualBox
  convect_eddy
- create_vector_points
  initialize_eddies
  new_rand_position
- uᵢ
- compute_fluct
- compute_uᵢₚ
- compute_Ek
 ```
 
-
-## Spectral Utilities
+## Fluctuations
 ```@docs
+ compute_fluct
+ compute_uSEM
+ compute_uDFSEM
+ compute_rk
+ compute_RL
+ compute_α
+ compute_kp
+```
+
+## Utilities
+```@docs
+ create_vector_points
+ compute_Ek
  fft_from_signal
 ```
 

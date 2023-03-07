@@ -13,6 +13,7 @@ using XLSX
 export tent_fun
 export step_fun
 export trunc_gauss_fun
+export DFSEM_fun
 export fσ
 include("Shapefunctions.jl")
 
@@ -26,30 +27,27 @@ export Reynolds_stress_point
 export get_reynolds_stress_from_file
 include("ReynoldsStress.jl")
 
-
-
-
 export AbstractEddy
 export SemEddy
 export VirtualBox
 export convect_eddy
-export create_vector_points
 export initialize_eddies
-export compute_fluct
-export compute_uᵢₚ
-export compute_Ek
-export uᵢ
 export new_rand_position
 include("Eddies.jl")
 
+export compute_fluct
+export compute_uSEM
 export compute_uDFSEM
-export DFSEM_fun
 export compute_rk
 export compute_RL
 export compute_α
 export compute_kp
-include("DFSEM.jl")
+include("Fluctuations.jl")
 
+export create_vector_points
+export compute_Ek
 export fft_from_signal
-include("SpectralUtilities.jl")
+include("Utilities.jl")
+
 end
+

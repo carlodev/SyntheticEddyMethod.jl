@@ -48,3 +48,55 @@ function fft_from_signal(q::Vector{Float64},dt)
     
     return PSD[idx], freqs[idx]
 end
+
+
+
+# VecPoints = Union{Float64, Vector{Float64}}
+
+"""
+    create_vector_points(x, y, z)
+
+Create a vector of points. Useful for testing purposes.
+
+# Examples
+```julia-repl
+julia> create_vector_points([1.0], [2.0, 3.0], [1.5, 3.5, 4.2])
+6-element Vector{Vector{Float64}}:
+ [1.0, 2.0, 1.5]
+ [1.0, 2.0, 3.5]
+ [1.0, 2.0, 4.2]
+ [1.0, 3.0, 1.5]
+ [1.0, 3.0, 3.5]
+ [1.0, 3.0, 4.2]
+```
+"""
+function create_vector_points(x, y, z)
+    vector_points = Vector{Float64}[]
+    for i = 1:1:length(x)
+        for j = 1:1:length(y)
+            for k = 1:1:length(z)
+                push!(vector_points, [x[i], y[j], z[k]])
+            end
+        end
+        
+    end
+    return vector_points
+end
+
+
+"""
+    compute_Ek(U::Vector{Vector{Float64}}, U₀::Float64)
+
+Compute the turbulent kinetic energy. The convective speed ` U₀` is subtracted from the `x` component of the speed.
+# Examples
+```julia-repl
+julia> compute_Ek([[1.2, 0.1, 0.3]], 1.0)
+1-element Vector{Float64}:
+ 0.06999999999999999
+```
+"""
+function compute_Ek(U::Vector{Vector{Float64}}, U₀::Float64)
+    map!(x -> [x[1] - U₀, x[2], x[3]], U,U)
+    Ek = 0.5 .*map(x -> sum(x.^2), U)
+    return Ek
+end
