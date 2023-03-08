@@ -94,7 +94,7 @@ end
 
 
 """
-    compute_uSDFEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
+    compute_uDFSEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
 
 It computes the velocity fluctuations using the DFSEM. In order it computes
 - Each j-eddy is convected of a distance dt⋅U₀ in the x direction
