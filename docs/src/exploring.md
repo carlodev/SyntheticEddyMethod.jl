@@ -20,7 +20,7 @@ dt = 0.01
 
 U₀ = 1.0 #Convective Velocity
 TI = 0.2 #turbulence intensity
-A, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
+Re, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 
 Plots.scatter()
 for i = 1:1:length(Eddies)
@@ -43,7 +43,7 @@ dt = 0.01
 X, Y, Z = mgrid(x, y, z)
 vector_points = create_vector_points(x, y, z)
 
-value = compute_uᵢₚ(vector_points, dt, Eddies, U₀, Vboxinfo)[1]
+value = compute_uSEM(vector_points, dt, Eddies, U₀, Vboxinfo, Re)[1]
 # value = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo,A)
 
 iso_surfaces = isosurface(
@@ -60,8 +60,6 @@ iso_surfaces = isosurface(
 
 layout=Layout(yaxis=attr(scaleanchor="x", scaleratio=1), zaxis=attr(scaleanchor="x", scaleratio=1))
 io = PlotlyJS.plot(iso_surfaces, Layout(yaxis=attr(scaleanchor="x", scaleratio=1)))
-
-
 
 ```
 

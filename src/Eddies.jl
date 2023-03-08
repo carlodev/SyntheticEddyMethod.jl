@@ -118,11 +118,11 @@ function initialize_eddies(U₀::Real, TI::Float64, Vboxinfo::VirtualBox; turbul
 end
 
 
-"""
-    new_rand_position(Vbinfo::VirtualBox)
+# 
+#     new_rand_position(Vbinfo::VirtualBox)
 
-It computes a random position inside the Virtual Box volume.
-"""
+# It computes a random position inside the Virtual Box volume.
+# 
 function new_rand_position(Vbinfo::VirtualBox)
 
     xx = (rand() .- 0.5) .* (Vbinfo.X_end - Vbinfo.X_start) .+ (Vbinfo.X_end + Vbinfo.X_start) ./ 2 #Vbinfo.X_start 
@@ -132,22 +132,6 @@ function new_rand_position(Vbinfo::VirtualBox)
     return[xx,yy,zz]
 end
 
-
-
-"""
-    uᵢ(vec_points::Vector{Vector{Float64}}, 
-    ϵᵢ::Float64, xᵢ::Vector{Float64}, σ::Vector{Float64}, 
-    f::Function)
-
-For each `i` point in `vec_points` it computes:\\
-
-``f\\left(\\frac{x_1-x_1^k}{\\sigma_1}\\right)f\\left(\\frac{x_2-x_2^k}{\\sigma_2}\\right) f\\left(\\frac{x_3-x_3^k}{\\sigma_3}\\right)``
-"""
-function uᵢ(vec_points::Vector{Vector{Float64}}, ϵᵢ::Float64, xᵢ::Vector{Float64}, σ::Vector{Float64}, shape_fun::Function)
-    #At each vec_points the coordinate of the i eddy is subtracted, so to have the values
-    #in a relative system, and divieded by σ in each direction
-    map(y -> ϵᵢ .* fσ( y ./σ, shape_fun), map(x -> x .- xᵢ, vec_points))
-end
 
 """
     convect_eddy(dt::Float64, Eddy::SemEddy, U₀::Float64, σ::Vector{Float64}, Vbinfo::VirtualBox)
@@ -164,100 +148,4 @@ function convect_eddy(dt::Float64, Eddy::SemEddy, U₀::Float64, Vbinfo::Virtual
         Eddy.ϵᵢ = rand((-1,1), 3)
     end
     return Eddy
-end
-
-"""
-    compute_uᵢₚ(x::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox)
-
-The velocity in the 3 directions is computed in each point provided in vec_points.
-"""
-function compute_uᵢₚ(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox)
-    contribution = zeros(length(vec_points),3)
-    for j = 1:1:length(Eddies)
-        Eddies[j] = convect_eddy(dt, Eddies[j], U₀, Vbinfo)
-        contribution[:,1] .+= uᵢ(vec_points, Eddies[j].ϵᵢ[1], Eddies[j].xᵢ, Eddies[j].σ, Vbinfo.shape_fun)
-        contribution[:,2] .+= uᵢ(vec_points, Eddies[j].ϵᵢ[2], Eddies[j].xᵢ, Eddies[j].σ, Vbinfo.shape_fun)
-        contribution[:,3] .+= uᵢ(vec_points, Eddies[j].ϵᵢ[3], Eddies[j].xᵢ, Eddies[j].σ, Vbinfo.shape_fun)
-
-    end
-    σ_mean =  Vbinfo.σ[1] *  Vbinfo.σ[2] * Vbinfo.σ[3] 
-    return sqrt(Vbinfo.V_b/(σ_mean)) ./ (Vbinfo.N)^0.5 .* contribution, Eddies
-end
-
-# VecPoints = Union{Float64, Vector{Float64}}
-
-"""
-    create_vector_points(x, y, z)
-
-Create a vector of points. Useful for testing purposes.
-
-# Examples
-```julia-repl
-julia> create_vector_points([1.0], [2.0, 3.0], [1.5, 3.5, 4.2])
-6-element Vector{Vector{Float64}}:
- [1.0, 2.0, 1.5]
- [1.0, 2.0, 3.5]
- [1.0, 2.0, 4.2]
- [1.0, 3.0, 1.5]
- [1.0, 3.0, 3.5]
- [1.0, 3.0, 4.2]
-```
-"""
-function create_vector_points(x, y, z)
-    vector_points = Vector{Float64}[]
-    for i = 1:1:length(x)
-        for j = 1:1:length(y)
-            for k = 1:1:length(z)
-                push!(vector_points, [x[i], y[j], z[k]])
-            end
-        end
-        
-    end
-    return vector_points
-end
-
-
-"""
-Compute the acutual velocity and the turbulent kinetic energy. The convective velocity is just in the x direction
-"""
-# function compute_U_k(q::Matrix{Float64}, A::Matrix{Float64}, U₀::Float64)
-#     U = A * q'
-#     U = U'
-#     U[:,1] = U[:,1] .+ U₀
-#     k = zeros(size(U)[1])
-#     for i = 1:1:size(U)[1]
-#         k[i] = 0.5.* (U[i,1].^2 .+ U[i,2].^2 .+ U[i,3].^2)
-
-#     end
-#     return U, k    
-# end
-
-"""
-    compute_fluct(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
-
-Compute the velocity fluctuations accordingly to the Reynolds Stress `Re`.
-"""
-function compute_fluct(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
-
-    u_fluct = compute_uᵢₚ(vec_points, dt, Eddies, U₀, Vbinfo)[1]
-    u_fluct_vec = [u_fluct[i,:] for i in axes(u_fluct,1)]
-    
-    Ap = Reynolds_stress_points(vec_points, Re)
-    U = map((x,y) -> x * y, Ap, u_fluct_vec)
-    
-    # Add U₀, convective velocity, to the component in the x direction. Save the results back to U
-    u_ = map(x -> [x[1] + U₀, x[2], x[3]], U)
-
-    return u_ 
-end
-
-"""
-    compute_Ek(U::Vector{Vector{Float64}}, U₀::Float64)
-
-Compute the turbulent kinetic energy. The convective speed ` U₀` is subtracted from the `x` component of the speed.
-"""
-function compute_Ek(U::Vector{Vector{Float64}}, U₀::Float64)
-    map!(x -> [x[1] - U₀, x[2], x[3]], U,U)
-    Ek = 0.5 .*map(x -> sum(x.^2), U)
-    return Ek
 end

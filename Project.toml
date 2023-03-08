@@ -1,7 +1,7 @@
 name = "SyntheticEddyMethod"
 uuid = "57cf2c78-4fcb-4d27-9f1f-369b8b08b789"
 authors = ["Carlo Brunelli"]
-version = "0.3.0"
+version = "0.4.0"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"

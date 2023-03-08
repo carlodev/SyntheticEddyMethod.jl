@@ -1,6 +1,6 @@
 
 using Statistics
-function driver_test(TI::Float64; Nt = 2000, s_fun = tent_fun)
+function driver_test(TI::Float64; Nt = 1000, s_fun = tent_fun, DFSEM = false)
 σ = 0.1 #eddy dimensions, the same in all the directions
 b = 5.0
 a = 0.0
@@ -59,16 +59,15 @@ vector_points = [[0.0, b/2, b/2]]
 
 #Defining how many time interval
 
-Nt = 5000
+Nt = Nt
 U = zeros(Nt, 3)
 
-u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
+u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress; DFSEM = DFSEM)
 @test typeof(u_f) == Vector{Vector{Float64}}
 @test length(u_f) == length(vector_points)
 
 for i = 1:1:Nt
-    u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
-    
+    u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress; DFSEM = DFSEM)
     U[i,:] = u_f[1] #Its a vector of vector
 end
 
@@ -82,5 +81,6 @@ return mean([s1,s2,s3])
 end
 
 
-
-
+function utilities_test()
+    return isapprox(compute_Ek([[1.2, 0.1, 0.3]], 1.0)[1], (0.2^2 + 0.1^2 + 0.3^2 )*0.5)
+end

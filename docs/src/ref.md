@@ -6,6 +6,7 @@
 tent_fun
 step_fun
 trunc_gauss_fun
+DFSEM_fun
 ```
 
 ## Decomposition
@@ -17,8 +18,6 @@ cholesky_decomposition
 ## Reynolds Stress
 ```@docs
  Reynolds_stress_tensor
- Reynolds_stress_points
- Reynolds_stress_point
  get_reynolds_stress_from_file
 ```
 
@@ -30,18 +29,20 @@ cholesky_decomposition
  SemEddy
  VirtualBox
  convect_eddy
- create_vector_points
  initialize_eddies
- new_rand_position
- uᵢ
- compute_fluct
- compute_uᵢₚ
- compute_Ek
 ```
 
-
-## Spectral Utilities
+## Fluctuations
 ```@docs
+ compute_fluct
+ compute_uSEM
+ compute_uDFSEM
+```
+
+## Utilities
+```@docs
+ create_vector_points
+ compute_Ek
  fft_from_signal
 ```
 

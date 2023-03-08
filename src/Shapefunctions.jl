@@ -66,6 +66,18 @@ function trunc_gauss_fun(x)
 end
 
 
+"""
+    DFSEM_fun(rs::Float64)
 
+Shape function specifically designed for using DFSEM.\\
+"""
+function DFSEM_fun(rs::Float64)
+    if norm(rs) <= 1 
+
+        return  (sin(pi*rs)^2)*rs
+    else
+        return 0
+    end
+end
 
 
