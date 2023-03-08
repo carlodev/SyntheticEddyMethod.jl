@@ -92,7 +92,12 @@ u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
 
 
 
-
+## Package Features
+- Create fluctuations that respect the divergence-free condition (DFSEM)
+- Create velocity fluctuations for inlet boundary conditions
+- Create coeherent eddies in 3D domain
+- Define custom Reynolds Stress Tensor
+- Import from file custom Reynolds Stress Tensor
 
 ## Acknowledgement
 - Nomenclature: 10.1016/j.ijheatfluidflow.2006.02.006
