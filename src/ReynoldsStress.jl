@@ -3,7 +3,7 @@
 
 Function called by the user, where the Re_file_info is path of the .xlsx file with the data of the Reynolds Stress.\\
 File column example:\\
-Z | Y | UU | VV | WW | UV | UW | VW
+| Z | Y | UU | VV | WW | UV | UW | VW |
 """
  function get_reynolds_stress_from_file(Re_file_info::String)
     Reinfo = DataFrame(XLSX.readtable(Re_file_info, "Sheet1"))
@@ -77,12 +77,12 @@ function Reynolds_stress_interpolator(yy::Vector{Float64},zz::Vector{Float64}, S
 end
 
 
-"""
-    Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, A::Reynolds_stress_interpolator)
+# """
+#     Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, A::Reynolds_stress_interpolator)
 
-Create vec_A of type Vector{Matrix}, where length(vec_A) == length(vec_points)
-Each element is the cholesky decomposition of the Reynolds stress at the specific point
-"""
+# Create vec_A of type Vector{Matrix}, where length(vec_A) == length(vec_points)
+# Each element is the cholesky decomposition of the Reynolds stress at the specific point
+# """
 function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re_interp::Reynolds_stress_interpolator)
     # vec_A = map(x ->Reynolds_stress_point(x, A), vec_points)
     npoints= length(vec_points)
@@ -95,12 +95,12 @@ function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re_interp::
     return vec_A
 end
 
-"""
-    Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, A::Matrix{Float64})
+# """
+#     Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, A::Matrix{Float64})
     
-Create vec_A of type Vector{Matrix}, where length(vec_A) == length(vec_points)
-Each element is the cholesky decomposition of the Reynolds stress at the specific point.
-"""
+# Create vec_A of type Vector{Matrix}, where length(vec_A) == length(vec_points)
+# Each element is the cholesky decomposition of the Reynolds stress at the specific point.
+# """
 function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re::Matrix{Float64})
     # vec_A = map(x -> A, vec_points )
     npoints= length(vec_points)
@@ -111,11 +111,11 @@ function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re::Matrix{
     return vec_A
 end
 
-"""
-    Reynolds_stress_point(point::Vector{Float64}, Re::Reynolds_stress_interpolator)
+# """
+#     Reynolds_stress_point(point::Vector{Float64}, Re::Reynolds_stress_interpolator)
 
-It gives the Reynolds stress for a specific point. It performs an interpolation using the information in Re.
-"""
+# It gives the Reynolds stress for a specific point. It performs an interpolation using the information in Re.
+# """
 function Reynolds_stress_point(pp::Vector{Float64}, Re::Reynolds_stress_interpolator)
     y = pp[2]
     z = pp[3]

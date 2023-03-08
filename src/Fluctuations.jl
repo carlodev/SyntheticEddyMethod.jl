@@ -58,6 +58,7 @@ end
 
 ### DFSEM
 
+#Compute a vector for the left term of the DFSEM
 function compute_RL(Re::Matrix{Float64})
     # eig_vecs = eigvecs(Re)
     # eig_vals = eigvals(Re)
@@ -72,17 +73,19 @@ function compute_RL(Re::Matrix{Float64})
     return ReL
 end
 
+#Compute the left side vector of the cross product in DFSEM
 function compute_α(RL::Vector{Float64}, epsi::Vector)
     alpha = RL .* epsi
     return alpha
 end
 
-
+#Compute turbulent kinetic energy from the Reynols stress extracting the trace
 function compute_kp(Re::Matrix{Float64})
     k = 0.5*tr(Re)
     return k
 end
 
+#Compute the distance between a point and the centre of the eddy
 function compute_rk(x::Vector{Float64}, xk::Vector{Float64})
     vec_rk = x-xk
     
@@ -90,11 +93,28 @@ function compute_rk(x::Vector{Float64}, xk::Vector{Float64})
 end
 
 
+"""
+    compute_uSDFEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
 
+It computes the velocity fluctuations using the DFSEM. In order it computes
+- Each j-eddy is convected of a distance dt⋅U₀ in the x direction
+- The distance between each point and the centre of the eddy x - xⱼ
+- It is normalised using σ for each direction, takes the norm
+- qσ using the specifically designed shape function
+- eigenvalues of Reynolds stress in principal axes and its eigenvectors
+- a rotation from Local (principal axes) to Global coordinates system, based on eigenvectors of Reynolds stress tensor and the eddy intensity ϵᵢ
+- total contribution of the j-eddy
+
+At the end the total contribution is rescaled by a factor B
+"""
 function compute_uDFSEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
      # @assert Vbinfo.σ[1] ==  Vbinfo.σ[2] 
-    # @assert  Vbinfo.σ[1] == Vbinfo.σ[3] 
-    @assert Vbinfo.shape_fun == DFSEM_fun
+    # @assert  Vbinfo.σ[1] == Vbinfo.σ[3]
+    if Vbinfo.shape_fun != DFSEM_fun
+        Vbinfo.shape_fun = DFSEM_fun
+        println("Set the shape functions a DFSEM_fun")
+    end
+    # @assert Vbinfo.shape_fun == DFSEM_fun
     @assert typeof(Re) == Matrix{Float64} #Not supported point defined reynolds for DFSEM
     σ = Vbinfo.σ[1]
     #Using improperly the create_vector_points function, just to intialize the contribution of the eddies

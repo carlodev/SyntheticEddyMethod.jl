@@ -68,7 +68,6 @@ u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress; DFSEM 
 
 for i = 1:1:Nt
     u_f = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress; DFSEM = DFSEM)
-    println(u_f[1])
     U[i,:] = u_f[1] #Its a vector of vector
 end
 

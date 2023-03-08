@@ -118,11 +118,11 @@ function initialize_eddies(U₀::Real, TI::Float64, Vboxinfo::VirtualBox; turbul
 end
 
 
-"""
-    new_rand_position(Vbinfo::VirtualBox)
+# 
+#     new_rand_position(Vbinfo::VirtualBox)
 
-It computes a random position inside the Virtual Box volume.
-"""
+# It computes a random position inside the Virtual Box volume.
+# 
 function new_rand_position(Vbinfo::VirtualBox)
 
     xx = (rand() .- 0.5) .* (Vbinfo.X_end - Vbinfo.X_start) .+ (Vbinfo.X_end + Vbinfo.X_start) ./ 2 #Vbinfo.X_start 

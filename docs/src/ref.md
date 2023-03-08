@@ -18,8 +18,6 @@ cholesky_decomposition
 ## Reynolds Stress
 ```@docs
  Reynolds_stress_tensor
- Reynolds_stress_points
- Reynolds_stress_point
  get_reynolds_stress_from_file
 ```
 
@@ -32,7 +30,6 @@ cholesky_decomposition
  VirtualBox
  convect_eddy
  initialize_eddies
- new_rand_position
 ```
 
 ## Fluctuations
@@ -40,10 +37,6 @@ cholesky_decomposition
  compute_fluct
  compute_uSEM
  compute_uDFSEM
- compute_rk
- compute_RL
- compute_α
- compute_kp
 ```
 
 ## Utilities
