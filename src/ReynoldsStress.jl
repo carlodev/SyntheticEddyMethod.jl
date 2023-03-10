@@ -68,7 +68,7 @@ function get_unique_coordinates_from_file(Reinfo::DataFrame, dims::Tuple)
             yy = [0.0]
             zz = convert(Array{Float64,1}, unique(Reinfo.Z)) 
         end
-    elseif dims == (:X,:Y)
+    elseif length(dims) == 2
         yy = convert(Array{Float64,1}, unique(Reinfo.Y)) 
         zz = convert(Array{Float64,1}, unique(Reinfo.Z)) 
     end
