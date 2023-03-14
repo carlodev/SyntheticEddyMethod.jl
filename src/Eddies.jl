@@ -103,9 +103,7 @@ function initialize_eddies(U₀::Real, TI::Float64, Vboxinfo::VirtualBox; turbul
     u_p = (U₀ * TI)^2
     
     if turbulence_type == :hom_is #homogeneous and isotropic
-    Re_stress = [u_p 0.0 0.0; 
-                0.0 u_p 0.0;
-                0.0 0.0 u_p]
+        Re_stress = collect(I(3).*u_p)
     
     else
         "Here if you want to implement different type of turbulence"

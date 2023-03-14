@@ -1,5 +1,5 @@
 """
-    compute_uSEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
+    compute_uSEM(vec_points::Vector{Vector{Float64}}, Eddies::Vector{SemEddy}, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
 
 It computes the velocity fluctuations using the SEM. In order it computes
 - Each j-eddy is convected of a distance dt⋅U₀ in the x direction
@@ -11,10 +11,9 @@ It computes the velocity fluctuations using the SEM. In order it computes
 
 At the end the total contribution is rescaled by a factor B
 """
-function compute_uSEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
+function compute_uSEM(vec_points::Vector{Vector{Float64}}, Eddies::Vector{SemEddy}, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
     contribution =  create_vector_points(zeros(length(vec_points)),0,0)
     for j = 1:1:length(Eddies)
-        Eddies[j] = convect_eddy(dt, Eddies[j], U₀, Vbinfo)
         vec_rk = map(x -> compute_rk(x, Eddies[j].xᵢ), vec_points)
         rk_σ = map(x-> x ./ Eddies[j].σ, vec_rk)
         qσ= map(x-> fσ(x, Vbinfo.shape_fun) .* Eddies[j].ϵᵢ, rk_σ)
@@ -37,10 +36,14 @@ end
 Compute the velocity fluctuations accordingly to the Reynolds Stress `Re`. It can be selected the DFSEM that impose also the divergence free condition.
 """
 function compute_fluct(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator}; DFSEM = false)
+    
+    #Convect Eddies
+    Eddies = map(ej -> convect_eddy(dt, ej, U₀, Vbinfo), Eddies)
+
     if DFSEM
-        U, Eddies = compute_uDFSEM(vec_points, dt, Eddies, U₀, Vbinfo, Re)
+        U, Eddies = compute_uDFSEM(vec_points, Eddies, Vbinfo, Re)
     else
-        U, Eddies = compute_uSEM(vec_points, dt, Eddies, U₀, Vbinfo, Re)
+        U, Eddies = compute_uSEM(vec_points, Eddies, Vbinfo, Re)
         # u_fluct = compute_uᵢₚ(vec_points, dt, Eddies, U₀, Vbinfo)[1]
         # u_fluct_vec = [u_fluct[i,:] for i in axes(u_fluct,1)]
     
@@ -94,9 +97,9 @@ end
 
 
 """
-    compute_uDFSEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
+    compute_uDFSEM(vec_points::Vector{Vector{Float64}}, Eddies::Vector{SemEddy}, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
 
-It computes the velocity fluctuations using the DFSEM. In order it computes
+    It computes the velocity fluctuations using the DFSEM. In order it computes
 - Each j-eddy is convected of a distance dt⋅U₀ in the x direction
 - The distance between each point and the centre of the eddy x - xⱼ
 - It is normalised using σ for each direction, takes the norm
@@ -107,7 +110,7 @@ It computes the velocity fluctuations using the DFSEM. In order it computes
 
 At the end the total contribution is rescaled by a factor B
 """
-function compute_uDFSEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
+function compute_uDFSEM(vec_points::Vector{Vector{Float64}}, Eddies::Vector{SemEddy}, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
      # @assert Vbinfo.σ[1] ==  Vbinfo.σ[2] 
     # @assert  Vbinfo.σ[1] == Vbinfo.σ[3]
     if Vbinfo.shape_fun != DFSEM_fun
@@ -121,7 +124,6 @@ function compute_uDFSEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies
     contribution =  create_vector_points(zeros(length(vec_points)),0,0)
 
     for j = 1:1:length(Eddies)
-        Eddies[j] = convect_eddy(dt, Eddies[j], U₀, Vbinfo)
         #get rk vector
         vec_rk = map(x -> compute_rk(x, Eddies[j].xᵢ), vec_points)
         #compute rk/σ
