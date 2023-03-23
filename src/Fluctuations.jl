@@ -11,22 +11,16 @@ It computes the velocity fluctuations using the SEM. In order it computes
 
 At the end the total contribution is rescaled by a factor B
 """
-function compute_uSEM(vec_points::Vector{Vector{Float64}}, Eddies::Vector{SemEddy}, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
-    contribution =  create_vector_points(zeros(length(vec_points)),0,0)
-    for j = 1:1:length(Eddies)
-        vec_rk = map(x -> compute_rk(x, Eddies[j].xᵢ), vec_points)
-        rk_σ = map(x-> x ./ Eddies[j].σ, vec_rk)
-        qσ= map(x-> fσ(x, Vbinfo.shape_fun) .* Eddies[j].ϵᵢ, rk_σ)
-
-        Ap = Reynolds_stress_points(vec_points, Re)
-        uk = map((x,y) -> x * y, Ap, qσ)
-        contribution .+= uk
-
-    end
-
-    σ_mean =  Vbinfo.σ[1] *  Vbinfo.σ[2] * Vbinfo.σ[3] 
-    B = sqrt(Vbinfo.V_b/(σ_mean)) ./ (Vbinfo.N)^0.5
-    return  B.* contribution, Eddies
+function compute_uSEM(point::Vector{Float64}, Eddies::Vector{SemEddy}, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
+    vec_rk = map(E -> compute_rk(point, E.xᵢ), Eddies)
+    rk_σ = map((rk, E) -> rk ./ E.σ, vec_rk, Eddies)
+    qσ = map((x, E) -> fσ(x, Vboxinfo.shape_fun) .* E.ϵᵢ, rk_σ, Eddies)
+    Ap = Reynolds_stress_points([point], Re)[1]
+    uk = map(x -> Ap * x, qσ)
+    contribution = sum(uk)
+    σ_mean = Vbinfo.σ[1] * Vbinfo.σ[2] * Vbinfo.σ[3]
+    B = sqrt(Vbinfo.V_b / (σ_mean)) ./ (Vbinfo.N)^0.5
+    return [B .* contribution], Eddies
 end
 
 
@@ -35,8 +29,8 @@ end
 
 Compute the velocity fluctuations accordingly to the Reynolds Stress `Re`. It can be selected the DFSEM that impose also the divergence free condition.
 """
-function compute_fluct(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator}; DFSEM = false)
-    
+function compute_fluct(vec_points::Union{Vector{Vector{Float64}},Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator}; DFSEM=false)
+
     #Convect Eddies
     Eddies = map(ej -> convect_eddy(dt, ej, U₀, Vbinfo), Eddies)
 
@@ -46,16 +40,16 @@ function compute_fluct(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies:
         U, Eddies = compute_uSEM(vec_points, Eddies, Vbinfo, Re)
         # u_fluct = compute_uᵢₚ(vec_points, dt, Eddies, U₀, Vbinfo)[1]
         # u_fluct_vec = [u_fluct[i,:] for i in axes(u_fluct,1)]
-    
+
         # Ap = Reynolds_stress_points(vec_points, Re)
         # U = map((x,y) -> x * y, Ap, u_fluct_vec)
-    
+
     end
-    
+
     # Add U₀, convective velocity, to the component in the x direction. Save the results back to U
     u_ = map(x -> [x[1] + U₀, x[2], x[3]], U)
-    
-    return u_ 
+
+    return u_
 end
 
 
@@ -70,17 +64,17 @@ function compute_RL(Re::Matrix{Float64})
     eig_vals, ReLG = eigen(Re)
     k = compute_kp(Re)
 
-    map!(ev ->verify_real_sqrt(k, ev), eig_vals,eig_vals )
-   
+    map!(ev -> verify_real_sqrt(k, ev), eig_vals, eig_vals)
+
     #Obtaining a Vector
-    ReL = ReLG * sqrt.(2 .*(k .- eig_vals))
+    ReL = ReLG * sqrt.(2 .* (k .- eig_vals))
     return ReL
 end
 
 function verify_real_sqrt(k::Real, ev::Real)
     if k - ev < 0
         @warn "Cannot reproduce the exact Reynolds stress for this point: k - ev <0, reducing ev from $ev tp $(0.5.*k)"
-        ev = 0.5.*k  
+        ev = 0.5 .* k
     end
 
     return ev
@@ -94,14 +88,14 @@ end
 
 #Compute turbulent kinetic energy from the Reynols stress extracting the trace
 function compute_kp(Re::Matrix{Float64})
-    k = 0.5*tr(Re)
+    k = 0.5 * tr(Re)
     return k
 end
 
 #Compute the distance between a point and the centre of the eddy
 function compute_rk(x::Vector{Float64}, xk::Vector{Float64})
-    vec_rk = x-xk
-    
+    vec_rk = x - xk
+
     return vec_rk
 end
 
@@ -120,8 +114,8 @@ end
 
 At the end the total contribution is rescaled by a factor B
 """
-function compute_uDFSEM(vec_points::Vector{Vector{Float64}}, Eddies::Vector{SemEddy}, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
-     # @assert Vbinfo.σ[1] ==  Vbinfo.σ[2] 
+function compute_uDFSEM(point::Vector{Float64}, Eddies::Vector{SemEddy}, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
+    # @assert Vbinfo.σ[1] ==  Vbinfo.σ[2] 
     # @assert  Vbinfo.σ[1] == Vbinfo.σ[3]
     if Vbinfo.shape_fun != DFSEM_fun
         Vbinfo.shape_fun = DFSEM_fun
@@ -129,32 +123,26 @@ function compute_uDFSEM(vec_points::Vector{Vector{Float64}}, Eddies::Vector{SemE
     end
     # @assert Vbinfo.shape_fun == DFSEM_fun
     @assert typeof(Re) == Matrix{Float64} #Not supported point defined reynolds for DFSEM
-    σ = Vbinfo.σ[1]
+    # σ = Vbinfo.σ[1]
     #Using improperly the create_vector_points function, just to intialize the contribution of the eddies
-    contribution =  create_vector_points(zeros(length(vec_points)),0,0)
+    vec_rk = map(E -> compute_rk(point, E.xᵢ), Eddies)
+    #compute rk/σ
+    rk_σ = map(x -> norm(x ./ Vbinfo.σ), vec_rk)
 
-    for j = 1:1:length(Eddies)
-        #get rk vector
-        vec_rk = map(x -> compute_rk(x, Eddies[j].xᵢ), vec_points)
-        #compute rk/σ
-        rk_σ = map(x-> norm(x ./ Vbinfo.σ), vec_rk)
+    #Compute qσ
+    qσ = map(x -> DFSEM_fun(x), rk_σ)
 
-        #Compute qσ
-        qσ= map(x-> DFSEM_fun(x), rk_σ)
-        
-        r_vec = map((qσk,rk_σk,vec_rkk)-> qσk/(rk_σk^3).*(vec_rkk./Vbinfo.σ), qσ,rk_σ,vec_rk)
-        
-      
-        ReL = compute_RL(Re)
-        
-        l_vec = compute_α(ReL, Eddies[j].ϵᵢ)
-        uk =  map(r_x -> cross(r_x, l_vec), r_vec)
-        contribution .+= uk
+    r_vec = map((qσk, rk_σk, vec_rkk) -> qσk / (rk_σk^3) .* (vec_rkk ./ Vbinfo.σ), qσ, rk_σ, vec_rk)
 
-    end
 
-    σ_mean3 =  Vbinfo.σ[1] *  Vbinfo.σ[2] * Vbinfo.σ[3] 
-    B = (15*Vbinfo.V_b/(16*pi*σ_mean3))^0.5
-    
-    return B.*(1 ./ (Vbinfo.N)^0.5) .* contribution, Eddies
+    ReL = compute_RL(Re)
+
+    l_vec = map(E -> compute_α(ReL, E.ϵᵢ), Eddies)
+    uk = map((r_x, l_x) -> cross(r_x, l_x), r_vec, l_vec)
+    contribution = sum(uk)
+
+    σ_mean3 = Vbinfo.σ[1] * Vbinfo.σ[2] * Vbinfo.σ[3]
+    B = (15 * Vbinfo.V_b / (16 * pi * σ_mean3))^0.5
+
+    return [B .* (1 ./ (Vbinfo.N)^0.5) .* contribution], Eddies
 end
