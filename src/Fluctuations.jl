@@ -69,11 +69,21 @@ function compute_RL(Re::Matrix{Float64})
     # ReLG = Re * inv(M)
     eig_vals, ReLG = eigen(Re)
     k = compute_kp(Re)
-    for ev in eig_vals @assert k - ev >0 end
 
+    map!(ev ->verify_real_sqrt(k, ev), eig_vals,eig_vals )
+   
     #Obtaining a Vector
     ReL = ReLG * sqrt.(2 .*(k .- eig_vals))
     return ReL
+end
+
+function verify_real_sqrt(k::Real, ev::Real)
+    if k - ev < 0
+        @warn "Cannot reproduce the exact Reynolds stress for this point: k - ev <0, reducing ev from $ev tp $(0.5.*k)"
+        ev = 0.5.*k  
+    end
+
+    return ev
 end
 
 #Compute the left side vector of the cross product in DFSEM
