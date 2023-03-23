@@ -40,6 +40,7 @@ Virtual Volume box where the eddies are created.
 mutable struct VirtualBox
     σ::Vector{Float64} # 3 elements vector, to have different σ in different directions
     N::Int64
+    T::Float64
     shape_fun::Function
     V_b::Float64
     X_start::Float64
@@ -48,7 +49,6 @@ mutable struct VirtualBox
     Y_end::Float64
     Z_start::Float64
     Z_end::Float64
-
 end
 
 #Virtual Box constructor
@@ -61,7 +61,7 @@ function VirtualBox(Y::Vector{Float64}, Z::Vector{Float64},  σ::Float64; shape_
 end
 
 function VirtualBox(X::Vector{Float64}, Y::Vector{Float64}, Z::Vector{Float64},  σ::Float64; shape_fun = tent_fun)
-    VirtualBox(X, Y, Z, [σ, σ, σ] ; shape_fun = shape_fun)
+    VirtualBox(X, Y, Z, [σ, σ, σ]; shape_fun = shape_fun)
 end
 
 function VirtualBox(X::Vector{Float64}, Y::Vector{Float64}, Z::Vector{Float64},  σ::Vector{Float64}; shape_fun = tent_fun)
@@ -71,13 +71,13 @@ function VirtualBox(X::Vector{Float64}, Y::Vector{Float64}, Z::Vector{Float64}, 
     Y_end = Y[end] + σ[2]
     Z_start = Z[1] - σ[3]
     Z_end = Z[end] + σ[3]
-
-    Sₚ = (Y_end - Y_start) * (Z_end - Z_start) * ((X_end - X_start)/ (2*σ[1]))^(2)
+    #Define a suitable Law For defining Sp for longer domains
+    Sₚ = (Y_end - Y_start) * (Z_end - Z_start) * ((X_end - X_start)/ (2*σ[1]))^(1)
     Sₛ = σ[2] * σ[3]  #Eddy surface on the XY Plane
     N = Int(round(Sₚ / Sₛ))
     V_b =  (Y_end - Y_start) * (Z_end - Z_start) * (X_end - X_start)
-
-    VirtualBox(σ, N, shape_fun, V_b, X_start, X_end, Y_start, Y_end, Z_start, Z_end)
+    T = 0.0 #Set the initialization time
+    VirtualBox(σ, N, T, shape_fun, V_b, X_start, X_end, Y_start, Y_end, Z_start, Z_end)
 end
 
 
@@ -145,5 +145,6 @@ function convect_eddy(dt::Float64, Eddy::SemEddy, U₀::Float64, Vbinfo::Virtual
         Eddy.xᵢ = new_rand_position(Vbinfo)
         Eddy.ϵᵢ = rand((-1,1), 3)
     end
+       
     return Eddy
 end

@@ -3,7 +3,7 @@
 ### Visualize the centre of the eddies
 Notice that the default value of the number of eddies is overwritten to reduce the total number and make the visualization easier
 
-```@example explore
+```julia
 using SyntheticEddyMethod
 using Plots
 σ = 0.1
@@ -14,7 +14,7 @@ y = collect(a:0.1:b)
 z = collect(a:0.1:b)
 
 
-Vboxinfo = VirtualBox(x, y,z, σ)
+Vboxinfo = VirtualBox(x, y, z, σ)
 Vboxinfo.N = 100
 dt = 0.01
 
@@ -29,7 +29,6 @@ Plots.scatter!([Eddies[i].xᵢ[1]], [Eddies[i].xᵢ[2]],
 
 end
 Plots.scatter!(xlabel="x",ylabel="y",zlabel="z")
-
 ```
 
 
@@ -42,15 +41,23 @@ using PlotlyJS
 dt = 0.01
 X, Y, Z = mgrid(x, y, z)
 vector_points = create_vector_points(x, y, z)
+Vboxinfo = VirtualBox(x, y, z, σ)
+Re, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 
-value = compute_uSEM(vector_points, dt, Eddies, U₀, Vboxinfo, Re)[1]
-# value = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo,A)
+Vboxinfo.N
+
+value = map(x-> compute_uSEM(x, Eddies, Vboxinfo, Re)[1], vector_points)
+
+A = value[1]'
+for i = 1:1:length(value)
+A = vcat(A,value[i]')
+end
 
 iso_surfaces = isosurface(
     x=X[:],
     y=Y[:],
     z=Z[:],
-    value=value[:,1],
+    value=A[:,1],
     isomin=0.1,
     isomax=1,
     surface_count=3,

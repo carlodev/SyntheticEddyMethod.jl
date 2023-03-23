@@ -40,17 +40,21 @@ x = 0.0
 vector_points = create_vector_points(x, y, z)
 
 ```
+
+```julia
+u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
+```
+
 You can create evaluate the speed in just one point (useful for monitoring how the velocity varies in time and creating the spectra)
 ```julia
-vector_points = [[0.0, 1.0, 2.5]]
+single_point = [0.0, 1.0, 2.5]
+u_fluct = compute_fluct(single_point, dt, Eddies, U₀, Vboxinfo, Re_stress)
+
 ```
 
 Compute the velocity fluctuation and then is 'corrected' using the Reynolds Stress tensor.
 
 
-```julia
-u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
-```
 
 Compute the turbulent kinetic energy:
 ```julia
@@ -84,16 +88,14 @@ Now, we are going to evaluate the fluctutations in 4 points useful for approxima
 dl = 0.0001
 vector_points = [[0.0, b / 2, b / 2], [dl, b / 2, b / 2], [0.0, b / 2 + dl, b / 2], [0.0, b / 2, b / 2 + dl]]
 u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress; DFSEM = true)
-
 ```
+
 In order to verify the diverge-free condition is respected, the derivatives in each direction are computed with a simple forward method.
 The divergence is normalized with the module of the gradient to obtain a non-diemensional quantity.\
 ``\dfrac{\nabla\cdot \vec{u}}{|\nabla \vec{u}|}``
 ```julia
 dudx = (u_fluct[2][1] - u_fluct[1][1]) / dl
-
 dvdy = (u_fluct[3][2] - u_fluct[1][2]) / dl
-
 dwdz = (u_fluct[4][3] - u_fluct[1][3]) / dl
 grad_norm = norm([dudx, dvdy, dwdz])
 div_val = dudx + dvdy + dwdz
