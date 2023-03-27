@@ -1,6 +1,7 @@
 using SyntheticEddyMethod
 using Test
 using Plots
+
 @testset "SyntheticEddyMethod.jl" begin
 
     include("driver.jl")
@@ -12,6 +13,8 @@ using Plots
     @test isapprox(driver_test(0.01; s_fun = trunc_gauss_fun), 0.01; rtol =0.2)
 
     @test isapprox(driver_test(0.01; s_fun = DFSEM_fun, DFSEM = true), 0.01; rtol =0.2)
+
+    test_div_null(0.001)
 
     @test utilities_test()
 

@@ -90,13 +90,16 @@ end
 Compute the turbulent kinetic energy. The convective speed ` U₀` is subtracted from the `x` component of the speed.
 # Examples
 ```julia-repl
-julia> compute_Ek([[1.2, 0.1, 0.3]], 1.0)
-1-element Vector{Float64}:
- 0.06999999999999999
+julia> compute_Ek([1.2, 0.1, 0.3], 1.0)
+0.06999999999999999
 ```
 """
-function compute_Ek(U::Vector{Vector{Float64}}, U₀::Float64)
-    map!(x -> [x[1] - U₀, x[2], x[3]], U,U)
-    Ek = 0.5 .*map(x -> sum(x.^2), U)
+function compute_Ek(U::Vector{Float64}, U₀::Float64)
+    U = [U[1] - U₀, U[2], U[3]]
+    Ek = 0.5 .* sum(U.^2)
     return Ek
+end
+
+function compute_Ek(U::Vector{Vector{Float64}}, U₀::Float64)
+    return map(x->compute_Ek(x, U₀), U )
 end

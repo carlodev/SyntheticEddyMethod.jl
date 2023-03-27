@@ -138,16 +138,18 @@ end
 Create vec_A of type Vector{Matrix}, where length(vec_A) == length(vec_points)
 Each element is the cholesky decomposition of the Reynolds stress at the specific point
 """
-function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re_interp::Reynolds_stress_interpolator)
+function Reynolds_stress_points(point::Vector{Float64}, Re_interp::Reynolds_stress_interpolator)
     # vec_A = map(x ->Reynolds_stress_point(x, A), vec_points)
-    npoints= length(vec_points)
-    vec_A = Vector{Matrix}(undef,npoints)
-    for i = 1:1:npoints
-        Re_loc = Reynolds_stress_point(vec_points[i], Re_interp)
-        vec_A[i] = cholesky_decomposition(Re_loc)
-    end
+    # npoints= length(vec_points)
+    # vec_A = Vector{Matrix}(undef,npoints)
+    # for i = 1:1:npoints
+    #     Re_loc = Reynolds_stress_point(vec_points[i], Re_interp)
+    #     vec_A[i] = cholesky_decomposition(Re_loc)
+    # end
 
-    return vec_A
+    Re_loc = Reynolds_stress_point(point, Re_interp)
+    A = cholesky_decomposition(Re_loc)
+    return A
 end
 
 """
@@ -156,14 +158,17 @@ end
 Create vec_A of type Vector{Matrix}, where length(vec_A) == length(vec_points)
 Each element is the cholesky decomposition of the Reynolds stress at the specific point.
 """
-function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re::Matrix{Float64})
-    # vec_A = map(x -> A, vec_points )
-    npoints= length(vec_points)
-    vec_A = Vector{Matrix}(undef,npoints)
-    for i = 1:1:npoints
-        vec_A[i] = cholesky_decomposition(Re)
-    end
-    return vec_A
+# function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re::Matrix{Float64})
+function Reynolds_stress_points(point::Vector{Float64}, Re::Matrix{Float64})
+
+    # # vec_A = map(x -> A, vec_points )
+    # npoints= length(vec_points)
+    # vec_A = Vector{Matrix}(undef,npoints)
+    # for i = 1:1:npoints
+    #     vec_A[i] = cholesky_decomposition(Re)
+    # end
+    A = cholesky_decomposition(Re)
+    return A
 end
 
 """

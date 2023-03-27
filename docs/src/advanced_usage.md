@@ -46,7 +46,7 @@ A_from_file = get_reynolds_stress_from_file(reynolds_stress_file)
 An curious user notice that in this last case the Reynolds Stress is not a matrix, but it is an interpolator object. It depends on the point location where the user want to compute the fluctuations.
 
 ```julia
-vector_points = [[0.0, 1.0, 2.5]]
+vector_points = [0.0, 1.0, 2.5]
 dt = 0.01
 U₀ = 1.0
 compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo,Re )
@@ -87,15 +87,17 @@ vector_points = [[0.0, b/2, b/2]]
 Nt = 1000
 U = zeros(Nt, 3)
 
-
+time_vec = collect(0:dt:dt*(Nt-1))
 for i = 1:1:Nt
-    U[i,:] = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, A)[1]
+    U[i,:] = compute_fluct(vector_points, time_vec[i], Eddies, U₀, Vboxinfo, A)[1]
 end
 
 #The deviation standard should approach the turbulence intensity
-Statistics.std(U[:,1])
-Statistics.std(U[:,2])
-Statistics.std(U[:,3])
+#This is what is done during testing
+Ustd_1 = Statistics.std(U[:,1])
+Ustd_2 = Statistics.std(U[:,2])
+Ustd_3 = Statistics.std(U[:,3])
+mean([Ustd_1, Ustd_2, Ustd_3])
 
 ```
 ## Spectral Analysis
@@ -121,7 +123,7 @@ for TI in TI_vec
     for i=1:1:N_restart
          q = Vector{Float64}[]
         for j = 1:1:Nt
-            qi = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, A)[1]
+            qi = compute_fluct(vector_points, time_vec[j], Eddies, U₀, Vboxinfo, A)[1]
             push!(q,qi)
         end
         println(i)
