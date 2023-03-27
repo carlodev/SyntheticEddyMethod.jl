@@ -29,7 +29,8 @@ function read_re_test()
  end
 
 
-
+###
+### Verify that the Reynolds stress created is close to the provide one
 # fname = "Re_stress.xlsx"
 # dims = (:Y,)
 # reynolds_stress_file = joinpath(@__DIR__,"Data",fname)
