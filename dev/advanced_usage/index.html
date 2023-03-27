@@ -16,7 +16,7 @@ N = Vboxinfo.N
 Eddies = initialize_eddies(Vboxinfo)
 </code></pre><h3 id="Define-custom-Reynolds-Stress-Tensor"><a class="docs-heading-anchor" href="#Define-custom-Reynolds-Stress-Tensor">Define custom Reynolds Stress Tensor</a><a id="Define-custom-Reynolds-Stress-Tensor-1"></a><a class="docs-heading-anchor-permalink" href="#Define-custom-Reynolds-Stress-Tensor" title="Permalink"></a></h3><p>The user can also use a custom Reynolds stress just by writing a <code>3x3</code> matrix.</p><pre><code class="language-julia hljs">Re = [1.87e-5 -8.6e-8  -8.2e-7; -8.6e-8 5.27e-8 6.8e-8; -8.2e-7 4.9e-9 2.64e-6]</code></pre><h3 id="Import-the-Reynolds-Stress-Tensor-from-file"><a class="docs-heading-anchor" href="#Import-the-Reynolds-Stress-Tensor-from-file">Import the Reynolds Stress Tensor from file</a><a id="Import-the-Reynolds-Stress-Tensor-from-file-1"></a><a class="docs-heading-anchor-permalink" href="#Import-the-Reynolds-Stress-Tensor-from-file" title="Permalink"></a></h3><p>Or use a database where the the Reynolds Stress is defined pointwise. </p><pre><code class="language-julia hljs">using XLSX
 reynolds_stress_file = joinpath(@__DIR__,&quot;..&quot;,&quot;..&quot;,&quot;test&quot;,&quot;Data&quot;,&quot;Re_ch.xlsx&quot;)
-A_from_file = get_reynolds_stress_from_file(reynolds_stress_file)</code></pre><p>An curious user notice that in this last case the Reynolds Stress is not a matrix, but it is an interpolator object. It depends on the point location where the user want to compute the fluctuations.</p><pre><code class="language-julia hljs">vector_points = [[0.0, 1.0, 2.5]]
+A_from_file = get_reynolds_stress_from_file(reynolds_stress_file)</code></pre><p>An curious user notice that in this last case the Reynolds Stress is not a matrix, but it is an interpolator object. It depends on the point location where the user want to compute the fluctuations.</p><pre><code class="language-julia hljs">vector_points = [0.0, 1.0, 2.5]
 dt = 0.01
 U₀ = 1.0
 compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo,Re )</code></pre><h1 id="Analyze-the-signal"><a class="docs-heading-anchor" href="#Analyze-the-signal">Analyze the signal</a><a id="Analyze-the-signal-1"></a><a class="docs-heading-anchor-permalink" href="#Analyze-the-signal" title="Permalink"></a></h1><p>A simple case is used.</p><pre><code class="language-julia hljs">using SyntheticEddyMethod
@@ -50,15 +50,17 @@ vector_points = [[0.0, b/2, b/2]]
 Nt = 1000
 U = zeros(Nt, 3)
 
-
+time_vec = collect(0:dt:dt*(Nt-1))
 for i = 1:1:Nt
-    U[i,:] = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, A)[1]
+    U[i,:] = compute_fluct(vector_points, time_vec[i], Eddies, U₀, Vboxinfo, A)[1]
 end
 
 #The deviation standard should approach the turbulence intensity
-Statistics.std(U[:,1])
-Statistics.std(U[:,2])
-Statistics.std(U[:,3])
+#This is what is done during testing
+Ustd_1 = Statistics.std(U[:,1])
+Ustd_2 = Statistics.std(U[:,2])
+Ustd_3 = Statistics.std(U[:,3])
+mean([Ustd_1, Ustd_2, Ustd_3])
 </code></pre><h2 id="Spectral-Analysis"><a class="docs-heading-anchor" href="#Spectral-Analysis">Spectral Analysis</a><a id="Spectral-Analysis-1"></a><a class="docs-heading-anchor-permalink" href="#Spectral-Analysis" title="Permalink"></a></h2><pre><code class="language-julia hljs">using SyntheticEddyMethod
 using DataFrames, XLSX, Plots
 #Turbulence intensity to test
@@ -80,7 +82,7 @@ for TI in TI_vec
     for i=1:1:N_restart
          q = Vector{Float64}[]
         for j = 1:1:Nt
-            qi = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, A)[1]
+            qi = compute_fluct(vector_points, time_vec[j], Eddies, U₀, Vboxinfo, A)[1]
             push!(q,qi)
         end
         println(i)
@@ -128,4 +130,4 @@ end
 plot!(freqs_rand, PSD_rand_tot, label = &quot;RAND&quot;)
 plot!(k, E, linestyle=:dash, label = &quot;E(k)∝k^-5/3&quot;)
 
-</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../usage/">« Usage</a><a class="docs-footer-nextpage" href="../exploring/">Exploring »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.23 on <span class="colophon-date" title="Thursday 23 March 2023 08:53">Thursday 23 March 2023</span>. Using Julia version 1.8.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../usage/">« Usage</a><a class="docs-footer-nextpage" href="../exploring/">Exploring »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.23 on <span class="colophon-date" title="Monday 27 March 2023 16:08">Monday 27 March 2023</span>. Using Julia version 1.8.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
