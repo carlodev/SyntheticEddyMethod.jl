@@ -26,6 +26,7 @@ function compute_uSEM(point::Vector{Float64}, Eddies::Vector{SemEddy}, Vbinfo::V
     return B .* contribution, Eddies
 end
 
+#compute_uSEM function for vec_points::Vector{Vector{Float64}}
 function compute_uSEM(vec_points::Vector{Vector{Float64}}, Eddies::Vector{SemEddy}, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
     return map(x-> compute_uSEM(x, Eddies, Vbinfo, Re), vec_points)
 end
@@ -61,12 +62,10 @@ function compute_fluct(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies:
     return map(x-> compute_fluct(x, dt, Eddies, U₀, Vbinfo, Re; DFSEM=DFSEM), vec_points)
 end
 
-    ### DFSEM
+### DFSEM
 
 
-
-
-   #Compute a vector for the left term of the DFSEM
+#Compute a vector for the left term of the DFSEM
 function compute_RL(Re::Matrix{Float64})
     eig_vals, eig_vec = eigen(Re)
     ReL = eig_vec.*eig_vals'
@@ -78,6 +77,7 @@ function compute_RL(Re::Matrix{Float64})
     ReL =  collect((sqrt.(2 .* (k .- eig_vals))' * eig_vec')')
     return ReL
 end 
+
 #Compute a vector for the left term of the DFSEM
 # function compute_RL(Re::Matrix{Float64})
 #     eig_vals, ReLG = eigen(Re)
@@ -175,6 +175,7 @@ function compute_uDFSEM(point::Vector{Float64}, Eddies::Vector{SemEddy}, Vbinfo:
     return B .* (1 ./ (Vbinfo.N)^0.5) .* contribution, Eddies
 end
 
+#compute_uDFSEM function for vec_points::Vector{Vector{Float64}}
 function compute_uDFSEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator}; DFSEM=false)
     return map(x-> compute_uDFSEM(x, dt, Eddies, U₀, Vbinfo, Re; DFSEM=DFSEM), vec_points)
 end

@@ -2,8 +2,9 @@
     get_reynolds_stress_from_file(Re_file_info::String)
 
 Function called by the user, where the Re_file_info is path of the .xlsx file with the data of the Reynolds Stress.\\
-File column example:\\
-Z | Y | UU | VV | WW | UV | UW | VW
+File column example:
+
+| Z | Y | UU | VV | WW | UV | UW | VW |
 """
  function get_reynolds_stress_from_file(Re_file_info::String; dims = (:Z,:Y))
     dims =  convert_symb2tupl(dims)
