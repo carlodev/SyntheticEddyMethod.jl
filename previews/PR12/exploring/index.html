@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Exploring · SyntheticEddyMethod.jl</title><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">SyntheticEddyMethod.jl</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Introduction</a></li><li><a class="tocitem" href="../usage/">Usage</a></li><li><a class="tocitem" href="../advanced_usage/">Advanced Usage</a></li><li class="is-active"><a class="tocitem" href>Exploring</a></li><li><a class="tocitem" href="../ref/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Exploring</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Exploring</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/docs/src/exploring.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Exploring-the-package"><a class="docs-heading-anchor" href="#Exploring-the-package">Exploring the package</a><a id="Exploring-the-package-1"></a><a class="docs-heading-anchor-permalink" href="#Exploring-the-package" title="Permalink"></a></h1><h3 id="Visualize-the-centre-of-the-eddies"><a class="docs-heading-anchor" href="#Visualize-the-centre-of-the-eddies">Visualize the centre of the eddies</a><a id="Visualize-the-centre-of-the-eddies-1"></a><a class="docs-heading-anchor-permalink" href="#Visualize-the-centre-of-the-eddies" title="Permalink"></a></h3><p>Notice that the default value of the number of eddies is overwritten to reduce the total number and make the visualization easier</p><pre><code class="language-julia hljs">using SyntheticEddyMethod
+using Plots
+σ = 0.1
+b = 5.0
+a = 0.0
+x = collect(-0.1:0.1:0.1)
+y = collect(a:0.1:b)
+z = collect(a:0.1:b)
+
+
+Vboxinfo = VirtualBox(x, y, z, σ)
+Vboxinfo.N = 100
+dt = 0.01
+
+U₀ = 1.0 #Convective Velocity
+TI = 0.2 #turbulence intensity
+Re, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
+
+Plots.scatter()
+for i = 1:1:length(Eddies)
+Plots.scatter!([Eddies[i].xᵢ[1]], [Eddies[i].xᵢ[2]], 
+[Eddies[i].xᵢ[3]],   legend=false,  ms=2, color=:black)
+
+end
+Plots.scatter!(xlabel=&quot;x&quot;,ylabel=&quot;y&quot;,zlabel=&quot;z&quot;)</code></pre><h3 id="Visualize-isosurface-velocity"><a class="docs-heading-anchor" href="#Visualize-isosurface-velocity">Visualize isosurface velocity</a><a id="Visualize-isosurface-velocity-1"></a><a class="docs-heading-anchor-permalink" href="#Visualize-isosurface-velocity" title="Permalink"></a></h3><pre><code class="language-julia hljs">using PlotlyJS
+
+dt = 0.01
+X, Y, Z = mgrid(x, y, z)
+vector_points = create_vector_points(x, y, z)
+Vboxinfo = VirtualBox(x, y, z, σ)
+Re, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
+
+Vboxinfo.N
+
+value = map(x-&gt; compute_uSEM(x, Eddies, Vboxinfo, Re)[1], vector_points)
+
+A = value[1]&#39;
+for i = 1:1:length(value)
+A = vcat(A,value[i]&#39;)
+end
+
+iso_surfaces = isosurface(
+    x=X[:],
+    y=Y[:],
+    z=Z[:],
+    value=A[:,1],
+    isomin=0.1,
+    isomax=1,
+    surface_count=3,
+    opacity=0.5,
+    caps=attr(x_show=false, y_show=false)
+)
+
+layout=Layout(yaxis=attr(scaleanchor=&quot;x&quot;, scaleratio=1), zaxis=attr(scaleanchor=&quot;x&quot;, scaleratio=1))
+io = PlotlyJS.plot(iso_surfaces, Layout(yaxis=attr(scaleanchor=&quot;x&quot;, scaleratio=1)))
+</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../advanced_usage/">« Advanced Usage</a><a class="docs-footer-nextpage" href="../ref/">References »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.23 on <span class="colophon-date" title="Tuesday 28 March 2023 06:11">Tuesday 28 March 2023</span>. Using Julia version 1.8.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
