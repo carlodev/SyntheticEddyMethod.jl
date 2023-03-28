@@ -100,6 +100,7 @@ function compute_Ek(U::Vector{Float64}, U₀::Float64)
     return Ek
 end
 
+#compute_Ek for Vector{Vector{Float64}} of points
 function compute_Ek(U::Vector{Vector{Float64}}, U₀::Float64)
     return map(x->compute_Ek(x, U₀), U )
 end
