@@ -1,6 +1,6 @@
 
-
-# SEM (Synthetic Eddy Method) in Julia
+# Synthetic Eddy Method
+# <img src="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/docs/assets/logo/semlogo.png" width="100" title="SEM logo">
 
 **Documentation**
 
