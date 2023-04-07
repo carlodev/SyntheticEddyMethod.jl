@@ -91,7 +91,12 @@ u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
 ```
 
 ## Examples
-This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensity. 
+This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensity. The spectra referers to the fluctutation in time in one speicific point
+# <img src="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/images/docs/Spectra.png" width="300" title="Spectra">
+
+
+It is reported the normalized divergence in a plane using the DFSEM.
+# <img src="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/images/docs/Div_free_plane.png" width="300" title="Divergence Free">
 
 ## Package Features
 - Create fluctuations that respect the divergence-free condition (DFSEM)
