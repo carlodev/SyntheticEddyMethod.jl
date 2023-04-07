@@ -1,6 +1,5 @@
 
-# Synthetic Eddy Method
-# <img src="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/images/logo.png" width="100" title="SEM logo">
+# Synthetic Eddy Method <img src="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/images/logo/logo.png" width="100" title="SEM logo">
 
 **Documentation**
 
