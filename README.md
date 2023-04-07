@@ -1,5 +1,6 @@
 
-# Synthetic Eddy Method <img src="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/images/logo/logo.png" width="100" title="SEM logo">
+# Synthetic Eddy Method 
+# <img src="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/images/logo/logo.png" width="100" title="SEM logo">
 
 **Documentation**
 
@@ -89,7 +90,8 @@ Compute the velocity fluctuation. It is then is 'corrected' using the matrix A w
 u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
 ```
 
-
+## Examples
+This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensity. 
 
 ## Package Features
 - Create fluctuations that respect the divergence-free condition (DFSEM)
