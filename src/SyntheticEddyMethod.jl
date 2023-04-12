@@ -46,5 +46,6 @@ export compute_Ek
 export fft_from_signal
 include("Utilities.jl")
 
+include("CustomPrint.jl")
 end
 
