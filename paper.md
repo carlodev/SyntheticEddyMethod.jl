@@ -52,7 +52,7 @@ z = collect(a:0.1:b)
 Vboxinfo = VirtualBox(y,z,σ)
 
 dt = 0.001 #time step
-U₀ = 1.0 #convective velocity
+U0 = 1.0 #convective velocity
 TI = 0.01 #turbulence intensity
 
 #Creating eddies and Reynolds stress tensor
@@ -60,15 +60,15 @@ Re_stress, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 
 eval_point = [0.0, 1.0, 2.5] #evaluation point
 
-u_fluct = compute_fluct(eval_point, dt, Eddies, U₀, Vboxinfo, Re_stress)
+u_fluct = compute_fluct(eval_point, dt, Eddies, U0, Vboxinfo, Re_stress)
 
 ```
 
 ## Results
-![Spectra. \label{Spectra}](images/docs/Spectra.png){ width=50% }
-![DFSEM plane. \label{dfsemPlane}](images/docs/Div_free_plane.png){ width=50% }
+![Spectra.\label{fig:spectra}](images/docs/Spectra.png){ width=50% }
+![DFSEM plane.\label{fig:dfsem-plane}](images/docs/Div_free_plane.png){ width=50% }
 
-Figure \autoref{Spectra} Example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensities. The spectra in figure \autoref{dfsemPlane} refers to the fluctuations in time in one specific point. Normalized divergence in a plane using the divergence-free Synthetic Eddy Method.
+Figure \ref{fig:spectra} Example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensities. The spectra in figure \autoref{fig:dfsem-plane} refers to the fluctuations in time in one specific point. Normalized divergence in a plane using the divergence-free Synthetic Eddy Method.
 
 
 # Package Features
