@@ -28,7 +28,7 @@ affiliations:
  - name: Engineering Technology Thermodynamics and Fluid Mechanics Group, VUB, Belgium
    index: 3
 date: 25 April 2023
-bibliography: ref.bib
+bibliography: paper.bib
 
 ---
 
@@ -73,12 +73,14 @@ u_fluct = compute_fluct(eval_point, dt, Eddies, U₀, Vboxinfo, Re_stress)
 
 ```
 
-This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensity. The spectra referers to the fluctutation in time in one speicific point
-![Spectra](images/docs/Spectra.png)
+This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensity. The spectra referers to the fluctutation in time in one speicific point.
+
+![Spectra](images/docs/Spectra.png){ width=50% }
 
 
 It is reported the normalized divergence in a plane using the DFSEM.
-![Divergence Free](images/docs/Div_free_plane.png)
+
+![Divergence Free](images/docs/Div_free_plane.png){ width=50% }
 
 # Package Features
 - Create fluctuations that respect the divergence-free condition (DFSEM)
