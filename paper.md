@@ -10,23 +10,10 @@ authors:
   - name: Carlo Brunelli
     orcid: 0000-0002-2873-6293
     equal-contrib: true
-    affiliation: "1, 2, 3" # (Multiple affiliations must be quoted)
-  - name: Bart Janssens
-    corresponding: true # (This is how you can denote equal contributions between multiple authors)
-    affiliation: 2
-  - name: Georg May
-    corresponding: true # (This is how to denote the corresponding author)
-    affiliation: 3
-  - name:  Mark Runacres
-    corresponding: true # (This is how to denote the corresponding author)
-    affiliation: 3    
+    affiliation: 1 # (Multiple affiliations must be quoted)
 affiliations:
  - name: Mechanical Engineering Department, Royal Military Academy, Belgium
    index: 1
- - name: Aeronautics and Aerospace Department, von Karman Institute for Fluid Dynamics, Belgium
-   index: 2
- - name: Engineering Technology Thermodynamics and Fluid Mechanics Group, VUB, Belgium
-   index: 3
 date: 25 April 2023
 bibliography: paper.bib
 
