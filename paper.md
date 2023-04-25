@@ -39,13 +39,12 @@ The Synthetic Eddy Method (SEM) is a numerical simulation technique used to mode
 
 `SyntheticEddyMethod.jl` is a package which aims to create realistic turbulent inlet conditions for Large Eddies Simulations. This package will be a valuable tool for researchers and engineers working in the field of Computational Fluid Dynamic, offering an intuitive and efficient way to simulate proper boundaries conditions. The fluctuations generated are more realistic than those that can be easily produced by a random signal.
 
-The method has been originally introduced by [@Jarrin:2006] . It has been extended by `@Poletto:2013` implementing the divergence-free constraint to fluctuations for incompressible flows.
+The method has been originally introduced by [@Jarrin:2006] . It has been extended by [@Poletto:2013] implementing the divergence-free constraint to fluctuations for incompressible flows.
 
-`SyntheticEddyMethod.jl` is completly implemented in Julia programming language, `@Bezanson:2017`. In recent years, Julia has emerged as a powerful language for scientific computing and has become popular among researchers and practitioners in the field of fluidynamics. Julia is is extremely expressive and allows to condensate complex mathematical expression in few synthetic lines. The functions are written almost identically as on paper.
+`SyntheticEddyMethod.jl` is completly implemented in Julia programming language, @Bezanson:2017. In recent years, Julia has emerged as a powerful language for scientific computing and has become popular among researchers and practitioners in the field of fluidynamics. Julia is is extremely expressive and allows to condensate complex mathematical expression in few synthetic lines. The functions are written almost identically as on paper.
 
-Different software packages have been developed to implement this method (for example using Fortran `OH:2019`). However, these packages are often limited in their applicability and can be challenging for non-experts to use. `SyntheticEddyMethod.jl` is designed to be more general-purpose, allowing it to be applied to a broader range of turbulence simulation problems. It is designed to be more accessible and with clear documentation.
+Different software packages have been developed to implement this method (for example using Fortran OH:2019). However, these packages are often limited in their applicability and can be challenging for non-experts to use. `SyntheticEddyMethod.jl` is designed to be more general-purpose, allowing it to be applied to a broader range of turbulence simulation problems. It is designed to be more accessible and with clear documentation.
 
-[@Binney:2008]
 
 # Usage Example
 
