@@ -9,7 +9,6 @@ tags:
 authors:
   - name: Carlo Brunelli
     orcid: 0000-0002-2873-6293
-    equal-contrib: true
     affiliation: 1 # (Multiple affiliations must be quoted)
 affiliations:
  - name: Mechanical Engineering Department, Royal Military Academy, Belgium
