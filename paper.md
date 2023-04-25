@@ -33,15 +33,15 @@ bibliography: paper.bib
 ---
 
 # Summary
-The Synthetic Eddy Method (SEM) is a numerical simulation technique used to model turbulent fluid flow in engineering and scientific applications. It involves synthesizing small-scale turbulent structures, or eddies, within a computational domain to represent the effects of larger-scale turbulent flows. This is accomplished by applying perturbations to the flow field, which induce a cascade of energy from larger to smaller eddies until the energy is dissipated through viscous effects. The result is a simulation that captures the important features of turbulent flows while remaining computationally efficient. Its ability to accurately capture the physics of turbulent flows makes it a valuable tool for researchers and engineers seeking to improve the efficiency and performance of fluid systems.
+The Synthetic Eddy Method (SEM) is a numerical simulation technique used to create turbulent flow field with desired features. It is used in computational fluid dynamics for imposing realistic inlet boundary conditions improving the fidelity of the results obtained by simulations. Its ability to create fluctuation with prescribed physical features makes it a valuable tool for researchers and engineers seeking to improve the efficiency and performance of fluid systems.
 
 # Statement of need
 
-`SyntheticEddyMethod.jl` is a package which aims to create realistic turbulent inlet conditions for Large Eddies Simulations. This package will be a valuable tool for researchers and engineers working in the field of Computational Fluid Dynamic, offering an intuitive and efficient way to simulate proper boundaries conditions. The fluctuations generated are more realistic than those that can be easily produced by a random signal.
+`SyntheticEddyMethod.jl` is a package which aims to create realistic turbulent inlet conditions for Large Eddies Simulations. This package will be a valuable tool for researchers and engineers working in the field of Computational Fluid Dynamics, offering an intuitive and efficient way to simulate proper boundary conditions. The fluctuations generated are more realistic than those that can be easily produced by a random signal.
 
 The method has been originally introduced by @Jarrin:2006. It has been extended by @Poletto:2013 implementing the divergence-free constraint to fluctuations for incompressible flows.
 
-`SyntheticEddyMethod.jl` is completly implemented in Julia programming language, [@Bezanson:2017]. In recent years, Julia has emerged as a powerful language for scientific computing and has become popular among researchers and practitioners in the field of fluidynamics. Julia is is extremely expressive and allows to condensate complex mathematical expression in few synthetic lines. The functions are written almost identically as on paper.
+`SyntheticEddyMethod.jl` is completly implemented in Julia programming language, [@Bezanson:2017]. In recent years, Julia has emerged as a powerful language for scientific computing and has become popular among researchers and practitioners in the field of flui ddynamics. Julia is extremely expressive and allows to condensate complex mathematical expression in a few synthetic lines. The functions are written almost identically as on paper. Julia allows the package to be flexible, for example computing the fluctuations in one point of the domain or in multiple locations or providing one Reynolds stress tensor the whole domain or pointwise.
 
 Different software packages have been developed to implement this method (for example using Fortran @OH:2019). However, these packages are often limited in their applicability and can be challenging for non-experts to use. `SyntheticEddyMethod.jl` is designed to be more general-purpose, allowing it to be applied to a broader range of turbulence simulation problems. It is designed to be more accessible and with clear documentation.
 
@@ -77,7 +77,7 @@ u_fluct = compute_fluct(eval_point, dt, Eddies, U₀, Vboxinfo, Re_stress)
 ```
 
 ## Results
-This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensity. The spectra referers to the fluctutation in time in one speicific point.
+This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensities. The spectra refers to the fluctuations in time in one specific point.
 
 ![Spectra](images/docs/Spectra.png){ width=50% }
 
