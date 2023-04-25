@@ -65,10 +65,10 @@ u_fluct = compute_fluct(eval_point, dt, Eddies, U0, Vboxinfo, Re_stress)
 ```
 
 ## Results
-![Spectra examples at different Turbulent Intensities.](images/docs/Spectra.png){ width=50% \label{fig:description}}
+![Spectra examples at different Turbulent Intensities.](images/docs/Spectra.png){ width=50% }
 ![DFSEM plane. \label{fig:dfsem-plane}](images/docs/Div_free_plane.png){ width=50%  }
 
-Figure @fig:description is an xample of spectras created using SyntheticEddyMethod with a tent function for different turbulence intensities. The spectra in figure refers to the fluctuations in time in one specific point.  Figure \autoref{fig:dfsem-plane} is the normalized divergence in a plane using the divergence-free feature of the package.
+It is reported an example of spectras created using SyntheticEddyMethod with a tent function for different turbulence intensities. The spectra in figure refers to the fluctuations in time in one specific point. On the left there is the normalized divergence in a plane using the divergence-free feature of the package.
 
 
 # Package Features
