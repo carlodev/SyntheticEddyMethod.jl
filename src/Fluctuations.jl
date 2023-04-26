@@ -78,19 +78,6 @@ function compute_RL(Re::Matrix{Float64})
     return ReL
 end 
 
-#Compute a vector for the left term of the DFSEM
-# function compute_RL(Re::Matrix{Float64})
-#     eig_vals, ReLG = eigen(Re)
-#     Re
-#     k = compute_kp(Re)
-
-#     map!(ev -> verify_real_sqrt(k, ev), eig_vals, eig_vals)
-
-#     #Obtaining a Vector
-#     ReL = ReLG * sqrt.(2 .* (k .- eig_vals))
-#     return ReL
-# end
-
 function verify_real_sqrt(k::Real, ev::Real)
     if k - ev < 0
         @warn "Cannot reproduce the exact Reynolds stress for this point: k - ev <0, reducing ev from $ev tp $(0.5.*k)"
@@ -176,6 +163,6 @@ function compute_uDFSEM(point::Vector{Float64}, Eddies::Vector{SemEddy}, Vbinfo:
 end
 
 #compute_uDFSEM function for vec_points::Vector{Vector{Float64}}
-function compute_uDFSEM(vec_points::Vector{Vector{Float64}}, dt::Float64, Eddies::Vector{SemEddy}, U₀::Float64, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator}; DFSEM=false)
-    return map(x-> compute_uDFSEM(x, dt, Eddies, U₀, Vbinfo, Re; DFSEM=DFSEM), vec_points)
+function compute_uDFSEM(vec_points::Vector{Vector{Float64}}, Eddies::Vector{SemEddy}, Vbinfo::VirtualBox, Re::Union{Matrix,Reynolds_stress_interpolator})
+    return map(x-> compute_uDFSEM(x, Eddies, Vbinfo, Re), vec_points)
 end
