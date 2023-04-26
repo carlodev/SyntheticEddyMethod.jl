@@ -32,36 +32,6 @@ The method has been originally introduced by @Jarrin:2006. It is based on the id
 Different software packages have been developed to implement this method (for example using Fortran, @OH:2019). However, these packages are often limited in their applicability and can be challenging for non-experts to use. `SyntheticEddyMethod.jl` is designed to be more general-purpose, allowing it to be applied to a broader range of turbulence simulation problems. It is designed to be more accessible and with clear documentation.
 
 
-# Usage Example
-
-```julia
-using SyntheticEddyMethod
-σ = 0.1 #eddy dimension
-
-#VirtualBox size
-b = 5.0
-a = 0.0
-
-x = -σ:0.1:+σ
-y = collect(a:0.1:b)
-z = collect(a:0.1:b)
-
-#VirtualBox creation
-Vboxinfo = VirtualBox(y,z,σ)
-
-dt = 0.001 #time step
-U0 = 1.0 #convective velocity
-TI = 0.01 #turbulence intensity
-
-#Creating eddies and Reynolds stress tensor
-Re_stress, Eddies = initialize_eddies(U₀, TI, Vboxinfo) 
-
-eval_point = [0.0, 1.0, 2.5] #evaluation point
-
-u_fluct = compute_fluct(eval_point, dt, Eddies, U0, Vboxinfo, Re_stress)
-
-```
-
 ## Results
 ![Spectra examples at different Turbulent Intensities.](images/docs/Spectra.png){ width=50% }
 ![DFSEM plane. \label{fig:dfsem-plane}](images/docs/Div_free_plane.png){ width=50%  }
