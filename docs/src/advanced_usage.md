@@ -77,11 +77,11 @@ dt = 0.01
 U₀ = 1.0 #Convective Velocity
 TI = 0.01 #turbulence intensity
 
-A, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
+Re_stress, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 
 
 #Computing the velocity in the middle of the VirtualBox domain
-vector_points = [[0.0, b/2, b/2]]
+vector_points = [0.0, b/2, b/2]
 
 #Defining how many time interval
 Nt = 1000
@@ -89,7 +89,7 @@ U = zeros(Nt, 3)
 
 time_vec = collect(0:dt:dt*(Nt-1))
 for i = 1:1:Nt
-    U[i,:] = compute_fluct(vector_points, time_vec[i], Eddies, U₀, Vboxinfo, A)[1]
+    U[i,:] = compute_fluct(vector_points, time_vec[i], Eddies, U₀, Vboxinfo, Re_stress)
 end
 
 #The deviation standard should approach the turbulence intensity
@@ -112,18 +112,22 @@ E = (k).^(-5/3)*0.01 #multiplied by 100 for shifting the curve in the top part
 
 N_restart = 20
 Nt = 2000
+time_vec = collect(0:dt:dt*(Nt-1))
+
 dt = 0.001
 
-#It can take up to 10 minutes
+#It can take up to 20 minutes
 for TI in TI_vec
-    A, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
+
     PSD = 0.0
     freqs = 0.0   
 
     for i=1:1:N_restart
+        Vboxinfo = VirtualBox(y,z,σ)
+        Re_stress, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
          q = Vector{Float64}[]
         for j = 1:1:Nt
-            qi = compute_fluct(vector_points, time_vec[j], Eddies, U₀, Vboxinfo, A)[1]
+            qi = compute_fluct(vector_points, time_vec[j], Eddies, U₀, Vboxinfo, Re_stress)
             push!(q,qi)
         end
         println(i)
@@ -131,10 +135,9 @@ for TI in TI_vec
         Ek =  compute_Ek(q, U₀)
         PSD_tmp, freqs = fft_from_signal(Ek, dt)
         PSD = PSD .+ PSD_tmp ./N_restart
-
     end
 
-PSD_data = DataFrame([PSD, freqs], [:PSD, :freqs])
+        PSD_data = DataFrame([PSD, freqs], [:PSD, :freqs])
         XLSX.writetable("test/psd_results_$TI.xlsx", "$TI" => PSD_data)
 end
 
@@ -156,10 +159,9 @@ PSD_data = DataFrame[]
 for i = eachindex(TI_vec)
     TI = TI_vec[i]
     filename = "test/psd_results_$TI.xlsx"
-    df_tmp = DataFrame(XLSX.readtable(filename, "$TI")...)
+    df_tmp = DataFrame(XLSX.readtable(filename, "$TI"))
     push!(PSD_data, df_tmp)
 end
-
 
 Plots.plot(xaxis=:log, yaxis=:log, xlim = [0.5, 1e3], ylims =[1e-10, 1], xlabel="k", ylabel="E(k)", legend=:bottomleft, xticks=[1,10,100,1000])
 for i = eachindex(TI_vec)
