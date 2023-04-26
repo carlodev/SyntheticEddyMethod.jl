@@ -20,14 +20,14 @@ The number of eddy is automatically computed in order to guarantee an homogeneou
 Vboxinfo = VirtualBox(y,z,σ)
 N = Vboxinfo.N #you can override it 
 ```
-Then, eddies are initialize in the virtualbox with random values of position and intensity. You have to specify the time-step, `dt`. Then the Reynolds stress tensor. Here homegeneous and isotropic turbulence is considered, so $R_{ij} = 0, i!=j; R_{ij} != 0, i=j$, and the terms are computed from the turbulence intensity (`TI`). Then the Matrix `A` is created using the `cholesky_decomposition` function.
+Then, eddies are initialize in the virtualbox with random values of position and intensity. You have to specify the time-step, `dt`. The Reynolds stress tensor can be specified by the user (as a 3x3 matrix) or automatically computed just providing the turbulence intensity and convective velocity.
 
 
 ```julia
 Eddies = initialize_eddies(Vboxinfo)
 t = 0
 dt = 0.001
-U₀ = 1.0
+U₀ = 1.0 #Convective velocity, x-axis
 TI = 0.01 #turbulence intensity
 
 Re_stress, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
