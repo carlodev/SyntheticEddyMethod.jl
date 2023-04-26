@@ -109,3 +109,11 @@ It is reported the normalized divergence in a plane using the DFSEM.
 - Shape function definition and Reynolds stress tensor sheet https://github.com/blackcata/SEM.git and the related paper 10.1016/j.ijheatmasstransfer.2019.02.061
 - For detailed description of the procedure https://nheri-simcenter.github.io/WE-UQ-Documentation/common/technical_manual/desktop/WEUQ/TinF.html 
 - DFSEM: 10.1007/s10494-013-9488-2
+
+## Contributing
+It is a collaborative project open to contributions. You can:
+- Open a new issue
+- Contact the project administator
+- Open a PR with the contribution
+
+
