@@ -63,11 +63,8 @@ N = Vboxinfo.N #you can override it
 Then, eddies are initialize in the virtualbox with random values of position and intensity. You have to specify the time-step, `dt`. Then the Reynolds stress tensor. Here homegeneous and isotropic turbulence is considered, so $R_{ij} = 0, i!=j; R_{ij} != 0, i=j$, and the terms are computed from the turbulence intensity (`TI`). 
 
 ```julia
-Eddies = initialize_eddies(Vboxinfo)
 t = 0
 dt = 0.001
-U₀ = 1.0
-TI = 0.01 #turbulence intensity
 
 U₀ = 1.0
 TI = 0.01 #turbulence intensity
@@ -82,12 +79,13 @@ vector_points = create_vector_points(x, y, z)
 ```
 You can create evaluate the speed in just one point (useful for monitoring how the velocity varies in time and creating the spectra)
 ```julia
-vector_points = [[0.0, 1.0, 2.5]]
+eval_point = [0.0, 1.0, 2.5]
 ```
 
 Compute the velocity fluctuation. It is then is 'corrected' using the matrix A which is internally created using the `cholesky_decomposition` function.
 ```julia
 u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
+u_fluct = compute_fluct(eval_point, dt, Eddies, U₀, Vboxinfo, Re_stress)
 ```
 
 ## Examples
@@ -99,11 +97,12 @@ It is reported the normalized divergence in a plane using the DFSEM.
 <img src="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/images/docs/Div_free_plane.png" width="450" title="Divergence Free">
 
 ## Package Features
-- Create fluctuations that respect the divergence-free condition (DFSEM)
 - Create velocity fluctuations for inlet boundary conditions
-- Create coeherent eddies in 3D domain
-- Define custom Reynolds Stress Tensor
-- Import from file custom Reynolds Stress Tensor
+- Create fluctuations that respect the divergence-free condition (DFSEM)
+- Create coeherent eddies in a 3D domain
+- It can simulate anisotropic effects by allowing the eddies to have different dimensions along different directions
+- Define a custom Reynolds Stress Tensor
+- Import custom Reynolds Stress Tensor
 
 ## Acknowledgement
 - Nomenclature: 10.1016/j.ijheatfluidflow.2006.02.006
