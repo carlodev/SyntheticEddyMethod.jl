@@ -19,7 +19,7 @@ bibliography: paper.bib
 ---
 
 # Summary
-The Synthetic Eddy Method (SEM) is a numerical simulation technique used to create a turbulent flow field with desired features. It is used in computational fluid dynamics for imposing realistic inlet boundary conditions, improving the fidelity of the results obtained by simulations. Its ability to create fluctuations with prescribed physical features makes it a valuable tool for researchers and engineers seeking to improve the reliability of simulations and also for re-creating as much as possible an evironment close to an experimental one. The package allows users to easily generate synthetic turbulence fields that can be used in CFD simulations, and to control the level of turbulence and eddies length of the generated fields.
+The Synthetic Eddy Method (SEM) is a numerical simulation technique used to create a turbulent flow field with desired features. It is used in computational fluid dynamics for imposing realistic inlet boundary conditions, improving the fidelity of the results obtained by simulations. Its ability to create fluctuations with prescribed physical features makes it a valuable tool for researchers and engineers seeking to improve the reliability of simulations and also for re-creating as much as possible an environment close to an experimental one. The package allows users to easily generate synthetic turbulence fields that can be used in CFD simulations, and to control the level of turbulence and eddies length of the generated fields.
 
 # Statement of need
 
