@@ -60,7 +60,7 @@ Vboxinfo = VirtualBox(y,z,σ)
 N = Vboxinfo.N #you can override it 
 ```
 
-Then, eddies are initialize in the virtualbox with random values of position and intensity. You have to specify the time-step, `dt`. Then the Reynolds stress tensor. Here homegeneous and isotropic turbulence is considered and the terms are internally computed from the turbulence intensity (`TI`). 
+Then, eddies are initialized in the virtualbox with random values of position and intensity. You have to specify the time-step, `dt`. Then the Reynolds stress tensor. Here homegeneous and isotropic turbulence is considered and the terms are internally computed from the turbulence intensity (`TI`). 
 
 ```julia
 t = 0
@@ -82,7 +82,7 @@ You can create evaluate the speed in just one point (useful for monitoring how t
 eval_point = [0.0, 1.0, 2.5]
 ```
 
-Compute the velocity fluctuation. It is then is 'corrected' using the matrix A which is internally created using the `cholesky_decomposition` function.
+Compute the velocity fluctuation. For computing the velocity fluctuations, there is a 'correction' using the matrix A which is internally created using the `cholesky_decomposition` function.
 ```julia
 u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
 u_fluct = compute_fluct(eval_point, dt, Eddies, U₀, Vboxinfo, Re_stress)
