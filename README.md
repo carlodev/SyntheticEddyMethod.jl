@@ -89,7 +89,7 @@ u_fluct = compute_fluct(eval_point, dt, Eddies, U₀, Vboxinfo, Re_stress)
 ```
 
 ## Examples
-This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensity. The spectra referers to the fluctutation in time in one speicific point
+This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensity. The spectra refers to the fluctuation in time in one specific point
 <img src="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/images/docs/Spectra.png" width="450" title="Spectra">
 
 
