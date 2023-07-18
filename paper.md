@@ -33,10 +33,8 @@ Different software packages have been developed to implement this method (for ex
 
 
 ## Results
-![Spectra examples at different Turbulent Intensities.](images/docs/Spectra.png){ width=50% }
-![DFSEM plane. \label{fig:dfsem-plane}](images/docs/Div_free_plane.png){ width=50%  }
-
-Above is reported an example of spectras created using SyntheticEddyMethod with a tent function for different turbulence intensities. The spectra in the left figure refers to the fluctuations in time in one specific point. On the right there is the normalized divergence in a plane using the divergence-free feature of the package.
+![Spectra examples at different Turbulent Intensities using tent function as shape function. It refers to the fluctuations in time in one specific point.](images/docs/Spectra.png){ width=50% }
+![normalized divergence in a plane using the divergence-free feature. \label{fig:dfsem-plane}](images/docs/Div_free_plane.png){ width=50%  }
 
 
 # Package Features
