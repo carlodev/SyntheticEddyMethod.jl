@@ -8,7 +8,7 @@ makedocs(
         "Usage" => "usage.md",
         "Advanced Usage" => "advanced_usage.md",
         "Exploring" => "exploring.md",
-        "References" => "ref.md"
+        "API information" => "api_info.md"
     ],
 )
 
