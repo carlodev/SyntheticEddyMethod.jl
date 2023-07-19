@@ -32,7 +32,7 @@ end
 
 ### Verify that the Reynolds stress created is close to the provide one
 
-function test_anystoropic_reynolds()
+function test_anisotropic_reynolds()
   σ = 0.05 #eddy dimensions, the same in all the directions
 
 

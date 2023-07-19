@@ -40,7 +40,7 @@ Different software packages have been developed to implement this method (for ex
 # Package Features
 - Create velocity fluctuations for inlet boundary conditions
 - Create fluctuations that respect the divergence-free condition (DFSEM)
-- Create coeherent eddies in a 3D domain
+- Create coherenteddies in a 3D domain
 - It can simulate anisotropic effects by allowing the eddies to have different dimensions along different directions
 - Define a custom Reynolds Stress Tensor
 - Import custom Reynolds Stress Tensor

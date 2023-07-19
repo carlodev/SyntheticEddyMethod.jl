@@ -12,7 +12,7 @@ The Divergence-Free Synthetic Eddy Method (DFSEM),originally developed by [Polet
 ## Package Features
 - Create fluctuations that respect the divergence-free condition (DFSEM)
 - Create velocity fluctuations for inlet boundary conditions
-- Create coeherent eddies in 3D domain
+- Create coherenteddies in 3D domain
 - Define custom Reynolds Stress Tensor
 - Import from file custom Reynolds Stress Tensor
 

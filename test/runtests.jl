@@ -18,7 +18,7 @@ end
 
 @testset "ReynoldsStress" begin include("TestDrivers/driver_reynoldsstress.jl") 
     read_re_test()
-    test_anystoropic_reynolds()
+    test_anisotropic_reynolds()
 end 
 
 
