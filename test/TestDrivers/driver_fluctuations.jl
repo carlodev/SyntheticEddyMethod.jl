@@ -51,6 +51,7 @@ u_f = compute_fluct(point, dt, Eddies, U₀, Vboxinfo, Re_stress; DFSEM = DFSEM)
 @test length(u_f) == 3
 
 time_vec = collect(0:dt:dt*(Nt-1))
+@info "Convecting Eddies for $Nt time steps"
 for i = 1:1:Nt
     u_f = compute_fluct(point, time_vec[i], Eddies, U₀, Vboxinfo, Re_stress; DFSEM = DFSEM)
     U[i,:] = u_f #A vector of vector
@@ -84,19 +85,19 @@ function test_div_null(tol=0.1)
     iter = 0
     iter_max = 100
     while (norm_div > tol || isnan(norm_div)) && iter<iter_max
-    Re_stress, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
-    
-    dl = 0.0001
-    vector_points = [[0.0, b / 2, b / 2], [dl, b / 2, b / 2], [0.0, b / 2 + dl, b / 2], [0.0, b / 2, b / 2 + dl]]
-    u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress; DFSEM = true)
+        Re_stress, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
+        
+        dl = 0.0001
+        vector_points = [[0.0, b / 2, b / 2], [dl, b / 2, b / 2], [0.0, b / 2 + dl, b / 2], [0.0, b / 2, b / 2 + dl]]
+        u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress; DFSEM = true)
 
-    dudx = (u_fluct[2][1] - u_fluct[1][1]) / dl
-    dvdy = (u_fluct[3][2] - u_fluct[1][2]) / dl
-    dwdz = (u_fluct[4][3] - u_fluct[1][3]) / dl
-    grad_norm = norm([dudx, dvdy, dwdz])
-    div_val = dudx + dvdy + dwdz
-    norm_div = abs(div_val/grad_norm)
-    iter = iter+1
+        dudx = (u_fluct[2][1] - u_fluct[1][1]) / dl
+        dvdy = (u_fluct[3][2] - u_fluct[1][2]) / dl
+        dwdz = (u_fluct[4][3] - u_fluct[1][3]) / dl
+        grad_norm = norm([dudx, dvdy, dwdz])
+        div_val = dudx + dvdy + dwdz
+        norm_div = abs(div_val/grad_norm)
+        iter = iter+1
     
     end
     @info "iter = $iter for satifying the requirement $tol"

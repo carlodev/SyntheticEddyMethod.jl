@@ -55,6 +55,7 @@ function test_anisotropic_reynolds()
   Nt = 10000
   U = zeros(Nt, 3)
   time_vec = collect(0:dt:dt*(Nt-1))
+  @info "Convecting Eddies for $Nt time steps"
   for i = 1:1:Nt
     u_f = compute_fluct(point, time_vec[i], Eddies, U₀, Vboxinfo, Re; DFSEM=false)
     U[i, :] = u_f #A vector of vector
