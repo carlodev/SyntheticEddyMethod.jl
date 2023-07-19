@@ -23,6 +23,8 @@ include("Decomposition.jl")
 export Reynolds_stress_interpolator
 export Reynolds_stress_tensor
 export get_reynolds_stress_from_file
+export Reynolds_stress_point
+export Reynolds_stress_points
 include("ReynoldsStress.jl")
 
 export AbstractEddy

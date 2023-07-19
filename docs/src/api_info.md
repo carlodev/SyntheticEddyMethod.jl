@@ -19,6 +19,8 @@ cholesky_decomposition
 ```@docs
  Reynolds_stress_tensor
  get_reynolds_stress_from_file
+ Reynolds_stress_points
+ Reynolds_stress_point
 ```
 
 
