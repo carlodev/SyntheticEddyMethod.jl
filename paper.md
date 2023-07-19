@@ -33,9 +33,8 @@ Different software packages have been developed to implement this method (for ex
 
 
 ## Results
-![Spectra examples at different Turbulent Intensities using tent function as shape function. It refers to the fluctuations in time at one specific point.](images/docs/Spectra.png){ width=50% }
-![normalized divergence in a plane using the divergence-free feature. \label{fig:dfsem-plane}](images/docs/Div_free_plane.png){ width=50%  }
-
+![Spectra examples at different Turbulent Intensities using tent function as shape function. It refers to the fluctuations in time in one specific point.](images/docs/Spectra.png){ width=45% }
+![normalized divergence in a plane using the divergence-free feature. \label{fig:dfsem-plane}](images/docs/Div_free_plane.png){ width=45%  }
 
 # Package Features
 - Create velocity fluctuations for inlet boundary conditions
