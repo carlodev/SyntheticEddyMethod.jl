@@ -40,7 +40,7 @@ function compute_fluct(point::Vector{Float64}, T::Float64, Eddies::Vector{SemEdd
 
     #Convect Eddies
     if T > Vbinfo.T
-        @info "convecting eddies"
+        #@info "convecting eddies"
         dt = T-Vbinfo.T
         Eddies = map(ej -> convect_eddy(dt, ej, U₀, Vbinfo), Eddies)
         Vbinfo.T = T

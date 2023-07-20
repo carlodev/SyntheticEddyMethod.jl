@@ -81,7 +81,7 @@ TI = 0.01 #turbulence intensity
 Re_stress, Eddies = initialize_eddies(U₀, TI, Vboxinfo)
 
 ```
-Now, we are going to evaluate the fluctutations in 4 points useful for approximating the divergence:\
+Now, we are going to evaluate the fluctuation in 4 points useful for approximating the divergence:\
 ``[x,y,z], [x+dx, y, z], [x,y+dy,z], [x,y,z+dz]``
 
 ```julia
