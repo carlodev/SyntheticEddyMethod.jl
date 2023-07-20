@@ -60,7 +60,9 @@ Vboxinfo = VirtualBox(y,z,σ)
 N = Vboxinfo.N #you can override it 
 ```
 
+
 Then, eddies are initialized in the virtualbox with random values of position and intensity. You have to specify the time-step, `dt`. Then the Reynolds stress tensor. Here homegeneous and isotropic turbulence is considered and the terms are internally computed from the turbulence intensity (`TI`). 
+
 
 ```julia
 t = 0
