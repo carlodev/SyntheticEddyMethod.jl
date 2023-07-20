@@ -60,7 +60,9 @@ Vboxinfo = VirtualBox(y,z,σ)
 N = Vboxinfo.N #you can override it 
 ```
 
-Then, eddies are initialize in the virtualbox with random values of position and intensity. You have to specify the time-step, `dt`. Then the Reynolds stress tensor. Here homegeneous and isotropic turbulence is considered and the terms are internally computed from the turbulence intensity (`TI`). 
+
+Then, eddies are initialized in the virtualbox with random values of position and intensity. You have to specify the time-step, `dt`. Then the Reynolds stress tensor. Here homegeneous and isotropic turbulence is considered and the terms are internally computed from the turbulence intensity (`TI`). 
+
 
 ```julia
 t = 0
@@ -82,14 +84,14 @@ You can create evaluate the speed in just one point (useful for monitoring how t
 eval_point = [0.0, 1.0, 2.5]
 ```
 
-Compute the velocity fluctuation. It is then is 'corrected' using the matrix A which is internally created using the `cholesky_decomposition` function.
+Compute the velocity fluctuation. For computing the velocity fluctuations, there is a 'correction' using the matrix A which is internally created using the `cholesky_decomposition` function.
 ```julia
 u_fluct = compute_fluct(vector_points, dt, Eddies, U₀, Vboxinfo, Re_stress)
 u_fluct = compute_fluct(eval_point, dt, Eddies, U₀, Vboxinfo, Re_stress)
 ```
 
 ## Examples
-This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensity. The spectra referers to the fluctutation in time in one speicific point
+This is an example of the spectra created using SyntheticEddyMethod with a tent function for different turbulence intensity. The spectra refers to the fluctuation in time in one specific point
 <img src="https://github.com/carlodev/SyntheticEddyMethod.jl/blob/master/images/docs/Spectra.png" width="450" title="Spectra">
 
 
@@ -99,7 +101,7 @@ It is reported the normalized divergence in a plane using the DFSEM.
 ## Package Features
 - Create velocity fluctuations for inlet boundary conditions
 - Create fluctuations that respect the divergence-free condition (DFSEM)
-- Create coeherent eddies in a 3D domain
+- Create coherenteddies in a 3D domain
 - It can simulate anisotropic effects by allowing the eddies to have different dimensions along different directions
 - Define a custom Reynolds Stress Tensor
 - Import custom Reynolds Stress Tensor

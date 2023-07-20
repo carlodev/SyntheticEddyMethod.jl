@@ -159,7 +159,6 @@ end
 Create vec_A of type Vector{Matrix}, where length(vec_A) == length(vec_points)
 Each element is the cholesky decomposition of the Reynolds stress at the specific point.
 """
-# function Reynolds_stress_points(vec_points::Vector{Vector{Float64}}, Re::Matrix{Float64})
 function Reynolds_stress_points(point::Vector{Float64}, Re::Matrix{Float64})
 
     # # vec_A = map(x -> A, vec_points )
