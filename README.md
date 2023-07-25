@@ -9,6 +9,9 @@
 [![Build Status](https://github.com/carlodev/SyntheticEddyMethod.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/carlodev/SyntheticEddyMethod.jl/actions/workflows/CI.yml?query=branch%3Amaster) 
 [![Coverage](https://codecov.io/gh/carlodev/SyntheticEddyMethod.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/carlodev/SyntheticEddyMethod.jl)
 
+**Citation**
+
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.05565/status.svg)](https://doi.org/10.21105/joss.05565)
 
 
 
