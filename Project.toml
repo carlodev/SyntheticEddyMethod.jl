@@ -45,7 +45,7 @@ Revise = "3.5.1"
 StatsBase = "0.33.21"
 StatsPlots = "0.15.4"
 Trapz = "2.0.3"
-XLSX = "0.7.9, 0.8"
+XLSX = "0.7.9, 0.8, 0.10"
 julia = "1.8.2"
 
 [extras]
