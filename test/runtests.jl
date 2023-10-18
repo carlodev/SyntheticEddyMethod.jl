@@ -1,6 +1,5 @@
 using SyntheticEddyMethod
 using Test
-using Plots
 
 
 

@@ -1,6 +1,5 @@
 module SyntheticEddyMethod
 
-using Plots
 using DataFrames
 using LinearAlgebra
 using Statistics
