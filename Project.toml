@@ -18,6 +18,7 @@ DataFrames = "1.5.0"
 FFTW = "1.5.0"
 FileIO = "1.16.0"
 Interpolations = "0.14.7"
+Statistics = "1"
 XLSX = "0.7.9, 0.8"
 julia = "1.8.2"
 
